@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">EasyFeedback</string>
+    <string name="feedback">Feedback</string>
 </resources>
