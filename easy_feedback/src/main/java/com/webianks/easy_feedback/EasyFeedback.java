@@ -6,7 +6,6 @@ package com.webianks.easy_feedback;
 
 public class EasyFeedback {
 
-
     public static void begin() {
     }
 }
