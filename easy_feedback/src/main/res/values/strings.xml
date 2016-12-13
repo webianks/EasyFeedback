@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Easy_Feedback</string>
+    <string name="your_input">Write here..</string>
+    <string name="send_feedback">Send</string>
 </resources>
