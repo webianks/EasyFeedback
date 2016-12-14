@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
 
             case R.id.ic_feedback:
-                EasyFeedback.begin();
+                EasyFeedback.begin(this);
                 break;
         }
 
