@@ -8,9 +8,12 @@
 
         <uses-permission android:name="android.permission.READ_LOGS" />
         <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+        <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
 
         <activity android:name=".FeedbackActivity" />
 
     </application>
+
+
 
 </manifest>
