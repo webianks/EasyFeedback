@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Easy_Feedback</string>
-    <string name="your_input">Write here..</string>
+    <string name="your_input">Write your feedback</string>
     <string name="send_feedback">Send</string>
+    <string name="legal_notice">Go to the Legal Help page to request content changes for legal reasons. Your system info will be sent to CompanyX. See privacy policy and terms of service.</string>
 </resources>
