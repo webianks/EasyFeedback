@@ -10,6 +10,8 @@ import android.util.Log;
 import android.util.Patterns;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -34,24 +36,17 @@ public class FeedbackActivity extends AppCompatActivity {
 
     private void fillSpinner() {
 
-        List<String> possibleEmails = new LinkedList<>();
         Pattern emailPattern = Patterns.EMAIL_ADDRESS;
-        Account[] accounts = AccountManager.get(this).getAccountsByType("com.google");
-
+        Account[] accounts = AccountManager.get(this).getAccounts();
         Log.d(TAG," "+accounts.length);
-
+        ArrayList<String> emails = new ArrayList<String>();
         for (Account account : accounts) {
-
             if (emailPattern.matcher(account.name).matches()) {
-
-                String possibleEmail = account.name;
-                possibleEmails.add(possibleEmail);
-                Log.d(TAG,possibleEmail);
+                emails.add(account.name);
             }
-
         }
 
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,android.R.layout.activity_list_item,possibleEmails);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,android.R.layout.activity_list_item,emails);
         accountSpinner.setAdapter(spinnerAdapter);
     }
 }
