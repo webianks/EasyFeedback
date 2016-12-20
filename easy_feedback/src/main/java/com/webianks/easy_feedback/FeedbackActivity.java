@@ -1,10 +1,14 @@
 package com.webianks.easy_feedback;
 
+import android.Manifest;
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.content.pm.PackageManager;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.Patterns;
@@ -24,6 +28,7 @@ public class FeedbackActivity extends AppCompatActivity {
 
     private Spinner accountSpinner;
     private String TAG = FeedbackActivity.class.getSimpleName();
+    private final int MY_PERMISSIONS_REQUEST = 123;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,17 +41,65 @@ public class FeedbackActivity extends AppCompatActivity {
 
     private void fillSpinner() {
 
-        Pattern emailPattern = Patterns.EMAIL_ADDRESS;
-        Account[] accounts = AccountManager.get(this).getAccounts();
-        Log.d(TAG," "+accounts.length);
-        ArrayList<String> emails = new ArrayList<String>();
-        for (Account account : accounts) {
-            if (emailPattern.matcher(account.name).matches()) {
-                emails.add(account.name);
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.GET_ACCOUNTS)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.GET_ACCOUNTS)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.GET_ACCOUNTS},
+                        MY_PERMISSIONS_REQUEST);
+
             }
         }
 
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,android.R.layout.activity_list_item,emails);
-        accountSpinner.setAdapter(spinnerAdapter);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    Pattern emailPattern = Patterns.EMAIL_ADDRESS;
+                    Account[] accounts = AccountManager.get(this).getAccounts();
+                    Log.d(TAG, " " + accounts.length);
+                    ArrayList<String> emails = new ArrayList<String>();
+                    for (Account account : accounts) {
+                        if (emailPattern.matcher(account.name).matches()) {
+                            emails.add(account.name);
+                        }
+                    }
+
+                    ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, emails);
+                    accountSpinner.setAdapter(dataAdapter);
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
     }
 }
