@@ -3,12 +3,14 @@ package com.webianks.easy_feedback;
 import android.Manifest;
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.Patterns;
@@ -53,6 +55,16 @@ public class FeedbackActivity extends AppCompatActivity {
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
 
+                showMessageOKCancel("You need to allow access to Contacts",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ActivityCompat.requestPermissions(FeedbackActivity.this,
+                                        new String[] {Manifest.permission.GET_ACCOUNTS},
+                                        MY_PERMISSIONS_REQUEST);
+                            }
+                        });
+
             } else {
 
                 // No explanation needed, we can request the permission.
@@ -64,6 +76,15 @@ public class FeedbackActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+        new AlertDialog.Builder(this)
+                .setMessage(message)
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Cancel", null)
+                .create()
+                .show();
     }
 
     @Override
