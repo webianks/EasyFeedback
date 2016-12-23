@@ -7,10 +7,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -32,6 +33,7 @@ public class FeedbackActivity extends AppCompatActivity {
     private Spinner accountSpinner;
     private String TAG = FeedbackActivity.class.getSimpleName();
     private final int MY_PERMISSIONS_REQUEST = 123;
+    private int REQUEST_APP_SETTINGS = 321;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,37 +47,36 @@ public class FeedbackActivity extends AppCompatActivity {
 
     private void fillSpinnerWrapper() {
 
-        int hasWriteContactsPermission = ContextCompat.checkSelfPermission(this,
-                Manifest.permission.GET_ACCOUNTS);
 
-        if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
-            if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.GET_ACCOUNTS)) {
-                showMessageOKCancel("You need to allow access to Contacts",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
 
-                                Intent intent = new Intent();
-                                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                Uri uri = Uri.fromParts("package", getPackageName(), null);
-                                intent.setData(uri);
-                                startActivity(intent);
+        if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
-                            }
-                        });
+            int hasWriteContactsPermission = checkSelfPermission(android.Manifest.permission.GET_ACCOUNTS);
+            if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
+
+                Log.d("PERMISSION","not granted going to ask");
+
+                try {
+                    requestPermissions(new String[] {android.Manifest.permission.GET_ACCOUNTS},
+                            MY_PERMISSIONS_REQUEST);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
                 return;
             }else{
 
-                ActivityCompat.requestPermissions(this,
-                        new String[] {Manifest.permission.GET_ACCOUNTS},
-                        MY_PERMISSIONS_REQUEST);
+                //already granted
+                fillSpinner();
 
             }
 
-            return;
+        }else{
+            //normal process
+            fillSpinner();
         }
-        fillSpinner();
+
     }
 
     private void fillSpinner() {
@@ -108,30 +109,75 @@ public class FeedbackActivity extends AppCompatActivity {
                 .show();
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission Granted
                     fillSpinner();
 
                 } else {
+                    // Permission Denied
+                    showMessageOKCancel("You need to allow access to Accounts to use your email.",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
 
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
+                                    goToSettings();
+
+                                }
+                            });
 
                 }
-                return;
-            }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-            // other 'case' lines to check for other
-            // permissions this app might request
         }
     }
+
+
+    private void goToSettings() {
+        Intent myAppSettings = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                Uri.parse("package:" + getPackageName()));
+        myAppSettings.addCategory(Intent.CATEGORY_DEFAULT);
+        myAppSettings.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivityForResult(myAppSettings, REQUEST_APP_SETTINGS);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_APP_SETTINGS) {
+            if (hasPermissions(Manifest.permission.GET_ACCOUNTS)) {
+
+                //Toast.makeText(this, "All permissions granted!", Toast.LENGTH_SHORT).show();
+                fillSpinner();
+
+            } else {
+
+                showMessageOKCancel("You need to allow access to Accounts to use your email.",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                goToSettings();
+
+                            }
+                        });
+
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public boolean hasPermissions(@NonNull String... permissions) {
+        for (String permission : permissions)
+            if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(this, permission))
+                return false;
+        return true;
+    }
+
 }
