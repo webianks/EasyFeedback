@@ -21,7 +21,6 @@
             android:id="@+id/account_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:entries="@array/email_ids"
             />
 
     </LinearLayout>

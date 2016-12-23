@@ -5,7 +5,6 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -37,6 +36,34 @@ public class FeedbackActivity extends AppCompatActivity {
         setContentView(R.layout.feedback_layout);
 
         accountSpinner = (Spinner) findViewById(R.id.account_spinner);
+        fillSpinnerWrapper();
+    }
+
+
+    private void fillSpinnerWrapper() {
+
+        int hasWriteContactsPermission = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.GET_ACCOUNTS);
+
+        if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.GET_ACCOUNTS)) {
+                showMessageOKCancel("You need to allow access to Contacts",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ActivityCompat.requestPermissions(FeedbackActivity.this,
+                                        new String[] {Manifest.permission.GET_ACCOUNTS},
+                                        MY_PERMISSIONS_REQUEST);
+                            }
+                        });
+                return;
+            }
+            ActivityCompat.requestPermissions(this,
+                    new String[] {Manifest.permission.GET_ACCOUNTS},
+                    MY_PERMISSIONS_REQUEST);
+            return;
+        }
         fillSpinner();
     }
 
@@ -58,39 +85,6 @@ public class FeedbackActivity extends AppCompatActivity {
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, finalEmails);
         accountSpinner.setAdapter(dataAdapter);
-
-       /* if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.GET_ACCOUNTS)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.GET_ACCOUNTS)) {
-
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-
-                showMessageOKCancel("You need to allow access to Contacts",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                ActivityCompat.requestPermissions(FeedbackActivity.this,
-                                        new String[] {Manifest.permission.GET_ACCOUNTS},
-                                        MY_PERMISSIONS_REQUEST);
-                            }
-                        });
-
-            } else {
-
-                // No explanation needed, we can request the permission.
-
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.GET_ACCOUNTS},
-                        MY_PERMISSIONS_REQUEST);
-
-            }
-        }*/
 
     }
 
@@ -114,18 +108,7 @@ public class FeedbackActivity extends AppCompatActivity {
 
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
-                    Pattern emailPattern = Patterns.EMAIL_ADDRESS;
-                    Account[] accounts = AccountManager.get(this).getAccounts();
-                    Log.d(TAG, " " + accounts.length);
-                    ArrayList<String> emails = new ArrayList<String>();
-                    for (Account account : accounts) {
-                        if (emailPattern.matcher(account.name).matches()) {
-                            emails.add(account.name);
-                        }
-                    }
-
-                    ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, emails);
-                    accountSpinner.setAdapter(dataAdapter);
+                    fillSpinner();
 
                 } else {
 
