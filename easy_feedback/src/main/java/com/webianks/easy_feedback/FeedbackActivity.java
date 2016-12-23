@@ -16,10 +16,9 @@ import android.util.Log;
 import android.util.Patterns;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
@@ -43,7 +42,24 @@ public class FeedbackActivity extends AppCompatActivity {
 
     private void fillSpinner() {
 
-        if (ContextCompat.checkSelfPermission(this,
+        Pattern emailPattern = Patterns.EMAIL_ADDRESS;
+        Account[] accounts = AccountManager.get(this).getAccounts();
+        Log.d(TAG, " " + accounts.length);
+        ArrayList<String> emails = new ArrayList<String>();
+        for (Account account : accounts) {
+            if (emailPattern.matcher(account.name).matches()) {
+                emails.add(account.name);
+            }
+        }
+
+        Set<String> noDups = new HashSet<String>();
+        noDups.addAll(emails);
+        ArrayList<String> finalEmails = new ArrayList<String>(noDups);
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, finalEmails);
+        accountSpinner.setAdapter(dataAdapter);
+
+       /* if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.GET_ACCOUNTS)
                 != PackageManager.PERMISSION_GRANTED) {
 
@@ -74,7 +90,7 @@ public class FeedbackActivity extends AppCompatActivity {
                         MY_PERMISSIONS_REQUEST);
 
             }
-        }
+        }*/
 
     }
 
