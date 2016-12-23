@@ -4,8 +4,11 @@ import android.Manifest;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -52,16 +55,24 @@ public class FeedbackActivity extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                ActivityCompat.requestPermissions(FeedbackActivity.this,
-                                        new String[] {Manifest.permission.GET_ACCOUNTS},
-                                        MY_PERMISSIONS_REQUEST);
+
+                                Intent intent = new Intent();
+                                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                Uri uri = Uri.fromParts("package", getPackageName(), null);
+                                intent.setData(uri);
+                                startActivity(intent);
+
                             }
                         });
                 return;
+            }else{
+
+                ActivityCompat.requestPermissions(this,
+                        new String[] {Manifest.permission.GET_ACCOUNTS},
+                        MY_PERMISSIONS_REQUEST);
+
             }
-            ActivityCompat.requestPermissions(this,
-                    new String[] {Manifest.permission.GET_ACCOUNTS},
-                    MY_PERMISSIONS_REQUEST);
+
             return;
         }
         fillSpinner();
@@ -114,6 +125,7 @@ public class FeedbackActivity extends AppCompatActivity {
 
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
+
                 }
                 return;
             }
