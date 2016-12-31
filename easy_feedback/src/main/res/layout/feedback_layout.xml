@@ -36,6 +36,7 @@
 
 
     <TextView
+        android:id="@+id/info_legal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_thirty_two"

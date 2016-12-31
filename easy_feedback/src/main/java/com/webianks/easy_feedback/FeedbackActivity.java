@@ -6,6 +6,7 @@ import android.accounts.AccountManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,10 +16,19 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -34,27 +44,90 @@ public class FeedbackActivity extends AppCompatActivity {
     private String TAG = FeedbackActivity.class.getSimpleName();
     private final int MY_PERMISSIONS_REQUEST = 123;
     private int REQUEST_APP_SETTINGS = 321;
+    private TextView info;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.feedback_layout);
 
-        accountSpinner = (Spinner) findViewById(R.id.account_spinner);
+        init();
         fillSpinnerWrapper();
+        colorPartOfText();
+    }
+
+    private void init() {
+        accountSpinner = (Spinner) findViewById(R.id.account_spinner);
+        info = (TextView) findViewById(R.id.info_legal);
+    }
+
+    private void colorPartOfText() {
+
+        final int colorBlue = ContextCompat.getColor(this,android.R.color.holo_blue_dark);
+
+  /*      String go_to_the = getString(R.string.go_to_the);
+        String request_content = getString(R.string.request_content);
+
+        String legal_help = getString(R.string.legal_help);
+        SpannableString spannable = new SpannableString(legal_help);
+
+        // here we set the color
+        spannable.setSpan(new ForegroundColorSpan(colorBlue), 0, legal_help.length(), 0);
+
+        info.setText(TextUtils.concat(go_to_the,spannable,request_content), TextView.BufferType.SPANNABLE);
+*/
+
+        Spannable spannable = new SpannableString(getString(R.string.legal_notice));
+        String str = spannable.toString();
+        int legalStart = str.indexOf("Legal Help page");
+        int legalEnd = legalStart+15;
+
+        int systemStart = str.indexOf("system info");
+        int systemEnd = systemStart+11;
+
+        int privacyPolicy = str.indexOf("privacy policy");
+        int privacyEnd = privacyPolicy+14;
+
+        int termsService = str.indexOf("terms of service");
+        int termsEnd = termsService+16;
+
+        SpannableString ssText = new SpannableString(spannable);
+
+
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+                //your code at here.
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setUnderlineText(false);
+                ds.setColor(colorBlue);
+            }
+        };
+
+
+        ssText.setSpan(clickableSpan, legalStart, legalEnd, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        ssText.setSpan(clickableSpan, systemStart, systemEnd, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+
+        info.setText(ssText);
+        info.setMovementMethod(LinkMovementMethod.getInstance());
+        info.setHighlightColor(Color.TRANSPARENT);
+        info.setEnabled(true);
+
+
     }
 
 
     private void fillSpinnerWrapper() {
 
 
-
         if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
             int hasWriteContactsPermission = checkSelfPermission(android.Manifest.permission.GET_ACCOUNTS);
             if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
-
-                Log.d("PERMISSION","not granted going to ask");
 
                 try {
                     requestPermissions(new String[] {android.Manifest.permission.GET_ACCOUNTS},
@@ -178,6 +251,16 @@ public class FeedbackActivity extends AppCompatActivity {
             if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(this, permission))
                 return false;
         return true;
+    }
+
+
+
+    public void sendEmail(){
+
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+        emailIntent.setData(Uri.parse("mailto: abc@xyz.com"));
+        startActivity(Intent.createChooser(emailIntent, "Send feedback"));
+
     }
 
 }

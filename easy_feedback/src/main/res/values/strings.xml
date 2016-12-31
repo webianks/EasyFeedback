@@ -4,6 +4,8 @@
     <string name="send_feedback">Send</string>
     <string name="legal_notice">Go to the Legal Help page to request content changes for legal reasons. Your system info will be sent to CompanyX. See privacy policy and terms of service.</string>
     <string name="from">From:</string>
+    <string name="legal_help">Legal Help</string>
+    <string name="go_to_the">Go to the</string>
     <string-array name="email_ids">
         <item>primary@domain.com</item>
         <item>user_two@domain.com</item>
