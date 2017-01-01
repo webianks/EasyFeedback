@@ -6,7 +6,6 @@ import android.accounts.AccountManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,14 +15,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.util.Patterns;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.webianks.easy_feedback.text_formatting.SpanHelper;
+import com.webianks.easy_feedback.text_formatting.Spanning;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -49,7 +47,7 @@ public class FeedbackActivity extends AppCompatActivity {
 
         init();
         fillSpinnerWrapper();
-        colorPartOfText();
+        Spanning.colorPartOfText(info);
     }
 
     private void init() {
@@ -57,28 +55,8 @@ public class FeedbackActivity extends AppCompatActivity {
         info = (TextView) findViewById(R.id.info_legal);
     }
 
-    private void colorPartOfText() {
-
-        StyleableSpannableStringBuilder styleableSpannableStringBuilder = new StyleableSpannableStringBuilder();
-        styleableSpannableStringBuilder.append(SpanHelper.got_to_the);
-        styleableSpannableStringBuilder.appendWithStyle(SpanHelper.clickableSpan,SpanHelper.legel_page);
-        styleableSpannableStringBuilder.append(SpanHelper.to_request);
-        styleableSpannableStringBuilder.appendWithStyle(SpanHelper.clickableSpan2,SpanHelper.system_info);
-        styleableSpannableStringBuilder.append(SpanHelper.will_be_sent);
-        styleableSpannableStringBuilder.appendWithStyle(SpanHelper.clickableSpan3,SpanHelper.privacy);
-        styleableSpannableStringBuilder.append(SpanHelper.and);
-        styleableSpannableStringBuilder.appendWithStyle(SpanHelper.clickableSpan4,SpanHelper.terms_service);
-
-        info.setText(styleableSpannableStringBuilder);
-        info.setMovementMethod(LinkMovementMethod.getInstance());
-        info.setHighlightColor(Color.TRANSPARENT);
-        info.setEnabled(true);
-
-    }
-
 
     private void fillSpinnerWrapper() {
-
 
         if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
