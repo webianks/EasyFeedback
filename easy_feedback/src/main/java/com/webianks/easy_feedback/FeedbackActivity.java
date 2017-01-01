@@ -6,7 +6,6 @@ import android.accounts.AccountManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,18 +15,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.TextPaint;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.util.Patterns;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.webianks.easy_feedback.text_formatting.SpanHelper;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -63,7 +57,7 @@ public class FeedbackActivity extends AppCompatActivity {
 
     private void colorPartOfText() {
 
-        final int colorBlue = ContextCompat.getColor(this,android.R.color.holo_blue_dark);
+
 
   /*      String go_to_the = getString(R.string.go_to_the);
         String request_content = getString(R.string.request_content);
@@ -76,7 +70,7 @@ public class FeedbackActivity extends AppCompatActivity {
 
         info.setText(TextUtils.concat(go_to_the,spannable,request_content), TextView.BufferType.SPANNABLE);
 */
-
+/*
         Spannable spannable = new SpannableString(getString(R.string.legal_notice));
         String str = spannable.toString();
         int legalStart = str.indexOf("Legal Help page");
@@ -94,19 +88,12 @@ public class FeedbackActivity extends AppCompatActivity {
         SpannableString ssText = new SpannableString(spannable);
 
 
-        ClickableSpan clickableSpan = new ClickableSpan() {
-            @Override
-            public void onClick(View widget) {
-                //your code at here.
-            }
+        ;
 
-            @Override
-            public void updateDrawState(TextPaint ds) {
-                super.updateDrawState(ds);
-                ds.setUnderlineText(false);
-                ds.setColor(colorBlue);
-            }
-        };
+        SpannableStringBuilder builder= new SpannableStringBuilder();
+        builder.append("Go to the")
+                .append("Legal Help Page ", clickableSpan, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                .append("rest not bold");
 
 
         ssText.setSpan(clickableSpan, legalStart, legalEnd, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
@@ -115,8 +102,20 @@ public class FeedbackActivity extends AppCompatActivity {
         info.setText(ssText);
         info.setMovementMethod(LinkMovementMethod.getInstance());
         info.setHighlightColor(Color.TRANSPARENT);
-        info.setEnabled(true);
+        info.setEnabled(true);*/
 
+
+        StyleableSpannableStringBuilder styleableSpannableStringBuilder = new StyleableSpannableStringBuilder();
+        styleableSpannableStringBuilder.append(SpanHelper.got_to_the);
+        styleableSpannableStringBuilder.appendWithStyle(SpanHelper.clickableSpan,SpanHelper.legel_page);
+        styleableSpannableStringBuilder.append(SpanHelper.to_request);
+        styleableSpannableStringBuilder.appendWithStyle(SpanHelper.clickableSpan2,SpanHelper.system_info);
+        styleableSpannableStringBuilder.append(SpanHelper.will_be_sent);
+        styleableSpannableStringBuilder.appendWithStyle(SpanHelper.clickableSpan3,SpanHelper.privacy);
+        styleableSpannableStringBuilder.append(SpanHelper.and);
+        styleableSpannableStringBuilder.appendWithStyle(SpanHelper.clickableSpan4,SpanHelper.terms_service);
+
+        info.setText(styleableSpannableStringBuilder);
 
     }
 

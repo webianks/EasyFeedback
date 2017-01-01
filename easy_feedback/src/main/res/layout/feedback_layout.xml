@@ -41,8 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_thirty_two"
         android:layout_marginRight="@dimen/margin_thirty_two"
-        android:layout_marginTop="@dimen/margin_thirty_two"
-        android:text="@string/legal_notice" />
+        android:layout_marginTop="@dimen/margin_thirty_two" />
 
     <Button
         android:layout_width="match_parent"
