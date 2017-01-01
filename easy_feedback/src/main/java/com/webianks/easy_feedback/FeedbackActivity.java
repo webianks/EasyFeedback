@@ -6,6 +6,7 @@ import android.accounts.AccountManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.util.Patterns;
 import android.widget.ArrayAdapter;
@@ -57,54 +59,6 @@ public class FeedbackActivity extends AppCompatActivity {
 
     private void colorPartOfText() {
 
-
-
-  /*      String go_to_the = getString(R.string.go_to_the);
-        String request_content = getString(R.string.request_content);
-
-        String legal_help = getString(R.string.legal_help);
-        SpannableString spannable = new SpannableString(legal_help);
-
-        // here we set the color
-        spannable.setSpan(new ForegroundColorSpan(colorBlue), 0, legal_help.length(), 0);
-
-        info.setText(TextUtils.concat(go_to_the,spannable,request_content), TextView.BufferType.SPANNABLE);
-*/
-/*
-        Spannable spannable = new SpannableString(getString(R.string.legal_notice));
-        String str = spannable.toString();
-        int legalStart = str.indexOf("Legal Help page");
-        int legalEnd = legalStart+15;
-
-        int systemStart = str.indexOf("system info");
-        int systemEnd = systemStart+11;
-
-        int privacyPolicy = str.indexOf("privacy policy");
-        int privacyEnd = privacyPolicy+14;
-
-        int termsService = str.indexOf("terms of service");
-        int termsEnd = termsService+16;
-
-        SpannableString ssText = new SpannableString(spannable);
-
-
-        ;
-
-        SpannableStringBuilder builder= new SpannableStringBuilder();
-        builder.append("Go to the")
-                .append("Legal Help Page ", clickableSpan, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                .append("rest not bold");
-
-
-        ssText.setSpan(clickableSpan, legalStart, legalEnd, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-        ssText.setSpan(clickableSpan, systemStart, systemEnd, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-
-        info.setText(ssText);
-        info.setMovementMethod(LinkMovementMethod.getInstance());
-        info.setHighlightColor(Color.TRANSPARENT);
-        info.setEnabled(true);*/
-
-
         StyleableSpannableStringBuilder styleableSpannableStringBuilder = new StyleableSpannableStringBuilder();
         styleableSpannableStringBuilder.append(SpanHelper.got_to_the);
         styleableSpannableStringBuilder.appendWithStyle(SpanHelper.clickableSpan,SpanHelper.legel_page);
@@ -116,6 +70,9 @@ public class FeedbackActivity extends AppCompatActivity {
         styleableSpannableStringBuilder.appendWithStyle(SpanHelper.clickableSpan4,SpanHelper.terms_service);
 
         info.setText(styleableSpannableStringBuilder);
+        info.setMovementMethod(LinkMovementMethod.getInstance());
+        info.setHighlightColor(Color.TRANSPARENT);
+        info.setEnabled(true);
 
     }
 
