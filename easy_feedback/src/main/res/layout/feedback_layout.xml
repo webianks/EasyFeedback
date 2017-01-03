@@ -29,9 +29,9 @@
         android:id="@+id/editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_thirty_two"
-        android:layout_marginRight="@dimen/margin_thirty_two"
-        android:layout_marginTop="@dimen/margin_thirty_two"
+        android:layout_marginLeft="@dimen/margin_thirty"
+        android:layout_marginRight="@dimen/margin_thirty"
+        android:layout_marginTop="@dimen/margin_thirty"
         android:hint="@string/your_input" />
 
 
@@ -44,9 +44,10 @@
         android:layout_marginTop="@dimen/margin_thirty_two" />
 
     <Button
+        android:id="@+id/submitSuggestion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_thirty_two"
+        android:layout_margin="@dimen/margin_thirty"
         android:text="@string/send_feedback" />
 
 </LinearLayout>

@@ -12,4 +12,5 @@ public class EasyFeedback {
     public static void begin(Context context) {
         context.startActivity(new Intent(context, FeedbackActivity.class));
     }
+
 }

@@ -4,6 +4,7 @@
     <string name="your_input">Write your feedback</string>
     <string name="send_feedback">Send</string>
     <string name="from">From:</string>
+    <string name="please_write">Please write something in suggestion</string>
 
     <string-array name="email_ids">
         <item>primary@domain.com</item>

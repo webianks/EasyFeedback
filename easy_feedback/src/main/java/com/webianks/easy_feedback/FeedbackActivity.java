@@ -17,9 +17,13 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.webianks.easy_feedback.text_formatting.Spanning;
 
@@ -32,13 +36,15 @@ import java.util.regex.Pattern;
  * Created by R Ankit on 28-10-2016.
  */
 
-public class FeedbackActivity extends AppCompatActivity {
+public class FeedbackActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Spinner accountSpinner;
     private String TAG = FeedbackActivity.class.getSimpleName();
     private final int MY_PERMISSIONS_REQUEST = 123;
     private int REQUEST_APP_SETTINGS = 321;
     private TextView info;
+    private Button submitSuggestion;
+    private EditText editText;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,23 +54,27 @@ public class FeedbackActivity extends AppCompatActivity {
         init();
         fillSpinnerWrapper();
         Spanning.colorPartOfText(info);
+
     }
 
     private void init() {
         accountSpinner = (Spinner) findViewById(R.id.account_spinner);
+        editText = (EditText) findViewById(R.id.editText);
         info = (TextView) findViewById(R.id.info_legal);
+        submitSuggestion = (Button) findViewById(R.id.submitSuggestion);
+        submitSuggestion.setOnClickListener(this);
     }
 
 
     private void fillSpinnerWrapper() {
 
-        if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
             int hasWriteContactsPermission = checkSelfPermission(android.Manifest.permission.GET_ACCOUNTS);
             if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
 
                 try {
-                    requestPermissions(new String[] {android.Manifest.permission.GET_ACCOUNTS},
+                    requestPermissions(new String[]{android.Manifest.permission.GET_ACCOUNTS},
                             MY_PERMISSIONS_REQUEST);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -72,14 +82,14 @@ public class FeedbackActivity extends AppCompatActivity {
 
 
                 return;
-            }else{
+            } else {
 
                 //already granted
                 fillSpinner();
 
             }
 
-        }else{
+        } else {
             //normal process
             fillSpinner();
         }
@@ -115,7 +125,6 @@ public class FeedbackActivity extends AppCompatActivity {
                 .create()
                 .show();
     }
-
 
 
     @Override
@@ -188,13 +197,28 @@ public class FeedbackActivity extends AppCompatActivity {
     }
 
 
-
-    public void sendEmail(){
+    public void sendEmail() {
 
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
         emailIntent.setData(Uri.parse("mailto: abc@xyz.com"));
         startActivity(Intent.createChooser(emailIntent, "Send feedback"));
 
     }
+
+
+    @Override
+    public void onClick(View view) {
+
+        String suggestion = editText.getText().toString();
+
+        if (suggestion.trim().length() > 0) {
+
+            sendEmail();
+
+        } else
+            Toast.makeText(this, getString(R.string.please_write), Toast.LENGTH_LONG).show();
+
+    }
+
 
 }
