@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -28,7 +29,10 @@ import android.widget.Toast;
 import com.webianks.easy_feedback.text_formatting.Spanning;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -46,6 +50,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
     private Button submitSuggestion;
     private EditText editText;
     private String emailId;
+    private int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 121;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,30 +79,43 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
-            int hasWriteContactsPermission = checkSelfPermission(android.Manifest.permission.GET_ACCOUNTS);
-            if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
+            List<String> permissionsNeeded = new ArrayList<String>();
+            final List<String> permissionsList = new ArrayList<String>();
 
-                try {
-                    requestPermissions(new String[]{android.Manifest.permission.GET_ACCOUNTS},
-                            MY_PERMISSIONS_REQUEST);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            if (!addPermission(permissionsList, Manifest.permission.GET_ACCOUNTS))
+                permissionsNeeded.add("ACCOUNTS")   ;
 
+            if (!addPermission(permissionsList, Manifest.permission.WRITE_EXTERNAL_STORAGE))
+                permissionsNeeded.add("STORAGE");
 
-                return;
-            } else {
+                if (permissionsList.size() > 0) {
+                    if (permissionsNeeded.size() > 0) {
 
+                        requestPermissions(permissionsList.toArray(new String[permissionsList.size()]),
+                                REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
+                        return;
+                    }
+
+            } else
                 //already granted
                 fillSpinner();
 
-            }
 
         } else {
             //normal process
             fillSpinner();
         }
 
+    }
+
+    private boolean addPermission(List<String> permissionsList, String permission) {
+        if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+            permissionsList.add(permission);
+            // Check for Rationale Option
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(this, permission))
+                return false;
+        }
+        return true;
     }
 
     private void fillSpinner() {
@@ -135,8 +153,19 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
+
             case MY_PERMISSIONS_REQUEST:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                Map<String, Integer> perms = new HashMap<String, Integer>();
+                perms.put(Manifest.permission.GET_ACCOUNTS, PackageManager.PERMISSION_GRANTED);
+                perms.put(Manifest.permission.WRITE_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
+
+                for (int i = 0; i < permissions.length; i++)
+                    perms.put(permissions[i], grantResults[i]);
+
+                if (perms.get(Manifest.permission.GET_ACCOUNTS) == PackageManager.PERMISSION_GRANTED
+                        && perms.get(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+
                     // Permission Granted
                     fillSpinner();
 
