@@ -1,14 +1,9 @@
 package com.webianks.easy_feedback;
 
-import android.os.Environment;
-
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 
 /**
  * Created by R Ankit on 09-12-2016.
@@ -16,28 +11,16 @@ import java.util.Date;
 
 public class SystemLog {
 
-    public static File extractLogToFileAndWeb(){
+    public static String extractLogToString() {
 
-        //set a file
-        Date datum = new Date();
-        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-        String fullName = df.format(datum)+"appLog.log";
-        File file = new File (Environment.getExternalStorageDirectory(), fullName);
-
-        //clears a file
-        if(file.exists()){
-            file.delete();
-        }
-
-
-        //write log to file
+        StringBuilder result = new StringBuilder("\n\n ==== SYSTEM-LOG ===\n\n");
         int pid = android.os.Process.myPid();
+
         try {
             String command = String.format("logcat -d -v threadtime *:*");
             Process process = Runtime.getRuntime().exec(command);
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            StringBuilder result = new StringBuilder();
             String currentLine = null;
 
             while ((currentLine = reader.readLine()) != null) {
@@ -46,11 +29,6 @@ public class SystemLog {
                     result.append("\n");
                 }
             }
-
-            FileWriter out = new FileWriter(file);
-            out.write(result.toString());
-            out.close();
-
             //Runtime.getRuntime().exec("logcat -d -v time -f "+file.getAbsolutePath());
         } catch (IOException e) {
             //Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
@@ -61,9 +39,9 @@ public class SystemLog {
         try {
             Runtime.getRuntime().exec("logcat -c");
         } catch (IOException e) {
-           // Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
+            // Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
         }
 
-        return file;
+        return result.toString();
     }
 }

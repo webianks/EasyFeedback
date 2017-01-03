@@ -5,6 +5,7 @@
     <string name="send_feedback">Send</string>
     <string name="from">From:</string>
     <string name="please_write">Please write something in suggestion</string>
+    <string name="send_feedback_two">Send Feedback</string>
 
     <string-array name="email_ids">
         <item>primary@domain.com</item>

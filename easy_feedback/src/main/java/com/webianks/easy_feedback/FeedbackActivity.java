@@ -234,16 +234,15 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
 
     public void sendEmail(String body) {
 
-        Uri uri = Uri.fromFile(SystemLog.extractLogToFileAndWeb());
+        StringBuilder finalBody = new StringBuilder(body);
+        finalBody.append(SystemLog.extractLogToString());
 
-        Intent emailIntent = new Intent(Intent.ACTION_SEND);
-        emailIntent.setType("vnd.android.cursor.dir/email");
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+        emailIntent.setType("text/html");
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Feedback");
-        emailIntent.putExtra(Intent.EXTRA_TEXT, body);
-        emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
-        String to[] = new String[]{emailId};
-        emailIntent.putExtra(Intent.EXTRA_EMAIL, to);
-        startActivity(Intent.createChooser(emailIntent, "Send feedback"));
+        emailIntent.putExtra(Intent.EXTRA_TEXT, finalBody.toString());
+        emailIntent.setData(Uri.parse("mailto: " + emailId));
+        startActivity(Intent.createChooser(emailIntent, getString(R.string.send_feedback_two)));
 
     }
 
@@ -253,11 +252,9 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
 
         String suggestion = editText.getText().toString();
 
-        if (suggestion.trim().length() > 0) {
-
+        if (suggestion.trim().length() > 0)
             sendEmail(suggestion);
-
-        } else
+        else
             Toast.makeText(this, getString(R.string.please_write), Toast.LENGTH_LONG).show();
 
     }
