@@ -1,6 +1,7 @@
 package com.webianks.easy_feedback;
 
 import android.os.Environment;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
@@ -8,7 +9,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 /**
  * Created by R Ankit on 09-12-2016.
@@ -16,11 +16,11 @@ import java.util.Locale;
 
 public class SystemLog {
 
-    public File extractLogToFileAndWeb(){
+    public static File extractLogToFileAndWeb(){
 
         //set a file
         Date datum = new Date();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.ITALY);
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         String fullName = df.format(datum)+"appLog.log";
         File file = new File (Environment.getExternalStorageDirectory(), fullName);
 

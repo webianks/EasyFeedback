@@ -204,11 +204,15 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
 
     public void sendEmail(String body) {
 
-        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
-        emailIntent.setType("text/html");
-        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Feedback");
-        emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, body);
-        emailIntent.setData(Uri.parse("mailto: "+emailId));
+        Uri uri = Uri.fromFile(SystemLog.extractLogToFileAndWeb());
+
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        emailIntent.setType("vnd.android.cursor.dir/email");
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Feedback");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, body);
+        emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        String to[] = new String[]{emailId};
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, to);
         startActivity(Intent.createChooser(emailIntent, "Send feedback"));
 
     }
