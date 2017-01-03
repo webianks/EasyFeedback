@@ -116,7 +116,8 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         noDups.addAll(emails);
         ArrayList<String> finalEmails = new ArrayList<String>(noDups);
 
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, finalEmails);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_dropdown_item, finalEmails);
         accountSpinner.setAdapter(dataAdapter);
 
     }
@@ -201,9 +202,12 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
     }
 
 
-    public void sendEmail() {
+    public void sendEmail(String body) {
 
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+        emailIntent.setType("text/html");
+        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Feedback");
+        emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, body);
         emailIntent.setData(Uri.parse("mailto: "+emailId));
         startActivity(Intent.createChooser(emailIntent, "Send feedback"));
 
@@ -217,7 +221,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
 
         if (suggestion.trim().length() > 0) {
 
-            sendEmail();
+            sendEmail(suggestion);
 
         } else
             Toast.makeText(this, getString(R.string.please_write), Toast.LENGTH_LONG).show();
