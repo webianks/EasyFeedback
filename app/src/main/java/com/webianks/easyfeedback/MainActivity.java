@@ -1,7 +1,7 @@
 package com.webianks.easyfeedback;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -29,7 +29,11 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
 
             case R.id.ic_feedback:
-                EasyFeedback.begin(this);
+
+                EasyFeedback.init(this)
+                        .setEmail("webianks@gmail.com")
+                        .start();
+
                 break;
         }
 

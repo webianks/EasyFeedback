@@ -45,6 +45,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
     private TextView info;
     private Button submitSuggestion;
     private EditText editText;
+    private String emailId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,6 +64,9 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         info = (TextView) findViewById(R.id.info_legal);
         submitSuggestion = (Button) findViewById(R.id.submitSuggestion);
         submitSuggestion.setOnClickListener(this);
+
+        emailId = getIntent().getStringExtra("email");
+
     }
 
 
@@ -200,7 +204,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
     public void sendEmail() {
 
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
-        emailIntent.setData(Uri.parse("mailto: abc@xyz.com"));
+        emailIntent.setData(Uri.parse("mailto: "+emailId));
         startActivity(Intent.createChooser(emailIntent, "Send feedback"));
 
     }

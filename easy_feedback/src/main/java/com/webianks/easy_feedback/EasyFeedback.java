@@ -1,7 +1,6 @@
 package com.webianks.easy_feedback;
 
 import android.content.Context;
-import android.content.Intent;
 
 /**
  * Created by R Ankit on 28-10-2016.
@@ -9,8 +8,11 @@ import android.content.Intent;
 
 public class EasyFeedback {
 
-    public static void begin(Context context) {
-        context.startActivity(new Intent(context, FeedbackActivity.class));
+    static Feedback feedback;
+
+    public static Feedback init(Context context) {
+        feedback = new Feedback(context);
+        return feedback;
     }
 
 }
