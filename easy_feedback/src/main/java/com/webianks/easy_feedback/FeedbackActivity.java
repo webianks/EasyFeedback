@@ -44,13 +44,12 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
 
     private Spinner accountSpinner;
     private String TAG = FeedbackActivity.class.getSimpleName();
-    private final int MY_PERMISSIONS_REQUEST = 123;
     private int REQUEST_APP_SETTINGS = 321;
     private TextView info;
     private Button submitSuggestion;
     private EditText editText;
     private String emailId;
-    private int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 121;
+    private final int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 121;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,18 +82,18 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
             final List<String> permissionsList = new ArrayList<String>();
 
             if (!addPermission(permissionsList, Manifest.permission.GET_ACCOUNTS))
-                permissionsNeeded.add("ACCOUNTS")   ;
+                permissionsNeeded.add("ACCOUNTS");
 
             if (!addPermission(permissionsList, Manifest.permission.WRITE_EXTERNAL_STORAGE))
                 permissionsNeeded.add("STORAGE");
 
-                if (permissionsList.size() > 0) {
-                    if (permissionsNeeded.size() > 0) {
+            if (permissionsList.size() > 0) {
+                if (permissionsNeeded.size() > 0) {
 
-                        requestPermissions(permissionsList.toArray(new String[permissionsList.size()]),
-                                REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
-                        return;
-                    }
+                    requestPermissions(permissionsList.toArray(new String[permissionsList.size()]),
+                            REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
+                    return;
+                }
 
             } else
                 //already granted
@@ -154,7 +153,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
 
-            case MY_PERMISSIONS_REQUEST:
+            case REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS:
 
                 Map<String, Integer> perms = new HashMap<String, Integer>();
                 perms.put(Manifest.permission.GET_ACCOUNTS, PackageManager.PERMISSION_GRANTED);
@@ -164,14 +163,14 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
                     perms.put(permissions[i], grantResults[i]);
 
                 if (perms.get(Manifest.permission.GET_ACCOUNTS) == PackageManager.PERMISSION_GRANTED
-                        && perms.get(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                        && perms.get(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
 
                     // Permission Granted
                     fillSpinner();
 
                 } else {
                     // Permission Denied
-                    showMessageOKCancel("You need to allow access to Accounts to use your email.",
+                    showMessageOKCancel("You need to allow access to Accounts & Storage.",
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -201,14 +200,16 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_APP_SETTINGS) {
-            if (hasPermissions(Manifest.permission.GET_ACCOUNTS)) {
+
+            if (hasPermissions(Manifest.permission.GET_ACCOUNTS) &&
+                    hasPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
 
                 //Toast.makeText(this, "All permissions granted!", Toast.LENGTH_SHORT).show();
                 fillSpinner();
 
             } else {
 
-                showMessageOKCancel("You need to allow access to Accounts to use your email.",
+                showMessageOKCancel("You need to allow access to Accounts & Storage.",
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
