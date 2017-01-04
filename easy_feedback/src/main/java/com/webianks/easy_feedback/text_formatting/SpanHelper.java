@@ -3,6 +3,8 @@ package com.webianks.easy_feedback.text_formatting;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
@@ -35,10 +37,14 @@ public class SpanHelper {
 
 
 
-    public  ClickableSpan clickableSpan = new ClickableSpan() {
+    public  ClickableSpan legalHelpSpan = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-            //your code at here.
+
+            String url = "http://www.webianks.com";
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(url));
+            context.startActivity(intent);
         }
 
         @Override
@@ -52,7 +58,6 @@ public class SpanHelper {
     public  ClickableSpan clickableSpanSystemInfo = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-            //your code at here.
 
             new AlertDialog.Builder(context)
                     .setTitle("System Info")
@@ -75,10 +80,15 @@ public class SpanHelper {
     };
 
 
-    public  ClickableSpan clickableSpan3 = new ClickableSpan() {
+    public  ClickableSpan privacyPolicySpan = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-            //your code at here.
+
+            String url = "http://www.webianks.com";
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(url));
+            context.startActivity(intent);
+
         }
 
         @Override
@@ -90,10 +100,16 @@ public class SpanHelper {
     };
 
 
-    public  ClickableSpan clickableSpan4 = new ClickableSpan() {
+    public  ClickableSpan termsServiceSpan = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
             //your code at here.
+
+            String url = "http://www.webianks.com";
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(url));
+            context.startActivity(intent);
+
         }
 
         @Override

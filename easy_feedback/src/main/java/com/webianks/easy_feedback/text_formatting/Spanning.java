@@ -18,7 +18,7 @@ public class Spanning {
 
         StyleableSpannableStringBuilder styleableSpannableStringBuilder = new StyleableSpannableStringBuilder();
         styleableSpannableStringBuilder.append(spanHelper.got_to_the);
-        styleableSpannableStringBuilder.appendWithStyle(spanHelper.clickableSpan, spanHelper.legel_page);
+        styleableSpannableStringBuilder.appendWithStyle(spanHelper.legalHelpSpan, spanHelper.legel_page);
         styleableSpannableStringBuilder.append(spanHelper.to_request);
         styleableSpannableStringBuilder.appendWithStyle(spanHelper.clickableSpanSystemInfo, spanHelper.system_info);
 
@@ -29,9 +29,9 @@ public class Spanning {
             will_be_sent = will_be_sent.replace("CompanyX",appLable);
 
         styleableSpannableStringBuilder.append(will_be_sent);
-        styleableSpannableStringBuilder.appendWithStyle(spanHelper.clickableSpan3, spanHelper.privacy);
+        styleableSpannableStringBuilder.appendWithStyle(spanHelper.privacyPolicySpan, spanHelper.privacy);
         styleableSpannableStringBuilder.append(spanHelper.and);
-        styleableSpannableStringBuilder.appendWithStyle(spanHelper.clickableSpan4, spanHelper.terms_service);
+        styleableSpannableStringBuilder.appendWithStyle(spanHelper.termsServiceSpan, spanHelper.terms_service);
 
         info.setText(styleableSpannableStringBuilder);
         info.setMovementMethod(LinkMovementMethod.getInstance());
