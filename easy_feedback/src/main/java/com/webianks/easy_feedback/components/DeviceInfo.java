@@ -4,13 +4,11 @@ import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.res.Configuration;
-import android.net.ConnectivityManager;
 import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
-import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -23,54 +21,33 @@ import static com.webianks.easy_feedback.components.DeviceInfo.Device.DEVICE_LAN
 public class DeviceInfo {
 
     public enum Device {
-        DEVICE_TYPE, DEVICE_SYSTEM_NAME, DEVICE_VERSION, DEVICE_SYSTEM_VERSION, DEVICE_TOKEN,
+
+        DEVICE_TYPE, DEVICE_VERSION, DEVICE_SYSTEM_VERSION,
         /**
          *
          */
-        DEVICE_NAME, DEVICE_UUID, DEVICE_MANUFACTURE, IPHONE_TYPE,
+        DEVICE_LANGUAGE, DEVICE_TIME_ZONE,
         /**
          *
          */
-        CONTACT_ID, DEVICE_LANGUAGE, DEVICE_TIME_ZONE, DEVICE_LOCAL_COUNTRY_CODE,
-        /**
-         *
-         */
-        DEVICE_CURRENT_YEAR, DEVICE_CURRENT_DATE_TIME, DEVICE_CURRENT_DATE_TIME_ZERO_GMT,
-        /**
-         *
-         */
-        DEVICE_HARDWARE_MODEL, DEVICE_NUMBER_OF_PROCESSORS, DEVICE_LOCALE, DEVICE_NETWORK, DEVICE_NETWORK_TYPE,
-        /**
-         *
-         */
-        DEVICE_IP_ADDRESS_IPV4, DEVICE_IP_ADDRESS_IPV6, DEVICE_MAC_ADDRESS, DEVICE_TOTAL_CPU_USAGE,
-        /**
-         *
-         */
-        DEVICE_TOTAL_MEMORY, DEVICE_FREE_MEMORY, DEVICE_USED_MEMORY,
-        /**
-         *
-         */
-        DEVICE_TOTAL_CPU_USAGE_USER, DEVICE_TOTAL_CPU_USAGE_SYSTEM,
-        /**
-         *
-         */
-        DEVICE_TOTAL_CPU_IDLE, DEVICE_IN_INCH;
+        DEVICE_TOTAL_MEMORY, DEVICE_FREE_MEMORY,
+
+
     }
 
 
-    public static String getAllDeviceInfo(Context context){
+    public static String getAllDeviceInfo(Context context) {
 
         StringBuilder stringBuilder = new StringBuilder("\n\n ==== SYSTEM-INFO ===\n\n");
 
-        stringBuilder.append("\n Device: "+DeviceInfo.getDeviceInfo(context,DeviceInfo.Device.DEVICE_SYSTEM_VERSION)+"\n");
-        stringBuilder.append("\n SDK Version: "+DeviceInfo.getDeviceInfo(context,DeviceInfo.Device.DEVICE_VERSION));
-        stringBuilder.append("\n Language: "+DeviceInfo.getDeviceInfo(context,DEVICE_LANGUAGE));
-        stringBuilder.append("\n TimeZone: "+DeviceInfo.getDeviceInfo(context,DeviceInfo.Device.DEVICE_TIME_ZONE));
-        stringBuilder.append("\n Total Memory: "+DeviceInfo.getDeviceInfo(context,DeviceInfo.Device.DEVICE_TOTAL_MEMORY));
-        stringBuilder.append("\n Free Memory: "+DeviceInfo.getDeviceInfo(context,DeviceInfo.Device.DEVICE_FREE_MEMORY));
-        stringBuilder.append("\n Device Type: "+DeviceInfo.getDeviceInfo(context,DeviceInfo.Device.DEVICE_TYPE));
-        stringBuilder.append("\n Data Type: "+DeviceInfo.getDataType(context));
+        stringBuilder.append("\n Device: " + getDeviceInfo(context, DeviceInfo.Device.DEVICE_SYSTEM_VERSION) + "\n");
+        stringBuilder.append("\n SDK Version: " + getDeviceInfo(context, DeviceInfo.Device.DEVICE_VERSION));
+        stringBuilder.append("\n Language: " + getDeviceInfo(context, DEVICE_LANGUAGE));
+        stringBuilder.append("\n TimeZone: " + getDeviceInfo(context, DeviceInfo.Device.DEVICE_TIME_ZONE));
+        stringBuilder.append("\n Total Memory: " + getDeviceInfo(context, DeviceInfo.Device.DEVICE_TOTAL_MEMORY));
+        stringBuilder.append("\n Free Memory: " + getDeviceInfo(context, DeviceInfo.Device.DEVICE_FREE_MEMORY));
+        stringBuilder.append("\n Device Type: " + getDeviceInfo(context, DeviceInfo.Device.DEVICE_TYPE));
+        stringBuilder.append("\n Data Type: " + DeviceInfo.getDataType(context));
 
         return stringBuilder.toString();
     }
@@ -79,52 +56,26 @@ public class DeviceInfo {
     public static String getDeviceInfo(Context activity, Device device) {
         try {
             switch (device) {
+
                 case DEVICE_LANGUAGE:
                     return Locale.getDefault().getDisplayLanguage();
+
                 case DEVICE_TIME_ZONE:
                     return TimeZone.getDefault().getID();//(false, TimeZone.SHORT);
-                case DEVICE_LOCAL_COUNTRY_CODE:
-                    return activity.getResources().getConfiguration().locale.getCountry();
-                case DEVICE_CURRENT_YEAR:
-                    return "" + (Calendar.getInstance().get(Calendar.YEAR));
-                case DEVICE_CURRENT_DATE_TIME:
-                    Calendar calendarTime = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
-                    long time = (calendarTime.getTimeInMillis() / 1000);
-                    return String.valueOf(time);
-                //                    return DateFormat.getDateTimeInstance().format(new Date());
-                case DEVICE_CURRENT_DATE_TIME_ZERO_GMT:
-                    Calendar calendarTime_zero = Calendar.getInstance(TimeZone.getTimeZone("GMT+0"), Locale.getDefault());
-                    return String.valueOf((calendarTime_zero.getTimeInMillis() / 1000));
-                //                    DateFormat df = DateFormat.getDateTimeInstance();
-                //                    df.setTimeZone(TimeZone.getTimeZone("GMT+0"));
-                //                    return df.format(new Date());
-                case DEVICE_HARDWARE_MODEL:
-                    return getDeviceName();
-                case DEVICE_NUMBER_OF_PROCESSORS:
-                    return Runtime.getRuntime().availableProcessors() + "";
-                case DEVICE_LOCALE:
-                    return Locale.getDefault().getISO3Country();
+
                 case DEVICE_TOTAL_MEMORY:
                     if (Build.VERSION.SDK_INT >= 16)
                         return String.valueOf(getTotalMemory(activity));
+
                 case DEVICE_FREE_MEMORY:
                     return String.valueOf(getFreeMemory(activity));
-                case DEVICE_USED_MEMORY:
-                    if (Build.VERSION.SDK_INT >= 16) {
-                        long freeMem = getTotalMemory(activity) - getFreeMemory(activity);
-                        return String.valueOf(freeMem);
-                    }
-                    return "";
+
                 case DEVICE_SYSTEM_VERSION:
                     return String.valueOf(getDeviceName());
+
                 case DEVICE_VERSION:
-                    return String.valueOf("SDK "+android.os.Build.VERSION.SDK_INT);
-                case DEVICE_IN_INCH:
-                    return getDeviceInch(activity);
-                case DEVICE_NETWORK_TYPE:
-                    return getNetworkType(activity);
-                case DEVICE_NETWORK:
-                    return checkNetworkStatus(activity);
+                    return String.valueOf("SDK " + android.os.Build.VERSION.SDK_INT);
+
                 case DEVICE_TYPE:
                     if (isTablet(activity)) {
                         if (getDeviceMoreThan5Inch(activity)) {
@@ -197,60 +148,6 @@ public class DeviceInfo {
         }
     }
 
-
-    public static String getNetworkType(final Context activity) {
-        String networkStatus = "";
-
-        final ConnectivityManager connMgr = (ConnectivityManager)
-                activity.getSystemService(Context.CONNECTIVITY_SERVICE);
-        // check for wifi
-        final android.net.NetworkInfo wifi =
-                connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-        // check for mobile data
-        final android.net.NetworkInfo mobile =
-                connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-
-        if (wifi.isAvailable()) {
-            networkStatus = "Wifi";
-        } else if (mobile.isAvailable()) {
-            networkStatus = getDataType(activity);
-        } else {
-            networkStatus = "noNetwork";
-        }
-        return networkStatus;
-    }
-
-    public static String checkNetworkStatus(final Context activity) {
-        String networkStatus = "";
-        try {
-            // Get connect mangaer
-            final ConnectivityManager connMgr = (ConnectivityManager)
-                    activity.getSystemService(Context.CONNECTIVITY_SERVICE);
-            // // check for wifi
-            final android.net.NetworkInfo wifi =
-                    connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-            // // check for mobile data
-            final android.net.NetworkInfo mobile =
-                    connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-
-            if (wifi.isAvailable()) {
-                networkStatus = "Wifi";
-            } else if (mobile.isAvailable()) {
-                networkStatus = getDataType(activity);
-            } else {
-                networkStatus = "noNetwork";
-                networkStatus = "0";
-            }
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            networkStatus = "0";
-        }
-        return networkStatus;
-
-    }
-
     public static boolean isTablet(Context context) {
         return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
@@ -273,19 +170,6 @@ public class DeviceInfo {
             }
         } catch (Exception e) {
             return false;
-        }
-    }
-
-    public static String getDeviceInch(Context activity) {
-        try {
-            DisplayMetrics displayMetrics = activity.getResources().getDisplayMetrics();
-
-            float yInches = displayMetrics.heightPixels / displayMetrics.ydpi;
-            float xInches = displayMetrics.widthPixels / displayMetrics.xdpi;
-            double diagonalInches = Math.sqrt(xInches * xInches + yInches * yInches);
-            return String.valueOf(diagonalInches);
-        } catch (Exception e) {
-            return "-1";
         }
     }
 

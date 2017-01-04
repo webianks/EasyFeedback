@@ -10,14 +10,21 @@ import android.widget.TextView;
 
 public class Spanning {
 
-    public static void colorPartOfText(TextView info) {
+    public static void colorPartOfText(TextView info, String appLable) {
 
         StyleableSpannableStringBuilder styleableSpannableStringBuilder = new StyleableSpannableStringBuilder();
         styleableSpannableStringBuilder.append(SpanHelper.got_to_the);
         styleableSpannableStringBuilder.appendWithStyle(SpanHelper.clickableSpan, SpanHelper.legel_page);
         styleableSpannableStringBuilder.append(SpanHelper.to_request);
         styleableSpannableStringBuilder.appendWithStyle(SpanHelper.clickableSpan2, SpanHelper.system_info);
-        styleableSpannableStringBuilder.append(SpanHelper.will_be_sent);
+
+
+        String will_be_sent = SpanHelper.will_be_sent.toString();
+
+        if (will_be_sent.contains("CompanyX"))
+            will_be_sent = will_be_sent.replace("CompanyX",appLable);
+
+        styleableSpannableStringBuilder.append(will_be_sent);
         styleableSpannableStringBuilder.appendWithStyle(SpanHelper.clickableSpan3, SpanHelper.privacy);
         styleableSpannableStringBuilder.append(SpanHelper.and);
         styleableSpannableStringBuilder.appendWithStyle(SpanHelper.clickableSpan4, SpanHelper.terms_service);

@@ -3,8 +3,10 @@ package com.webianks.easy_feedback;
 import android.Manifest;
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -57,7 +59,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
 
         init();
         fillSpinnerWrapper();
-        Spanning.colorPartOfText(info);
+        Spanning.colorPartOfText(info, getAppLable(this));
 
         deviceInfo = DeviceInfo.getAllDeviceInfo(this);
 
@@ -214,7 +216,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
 
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
         emailIntent.setType("text/html");
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Feedback");
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, getAppLable(this) + " Feedback");
         emailIntent.putExtra(Intent.EXTRA_TEXT, finalBody.toString());
         emailIntent.setData(Uri.parse("mailto: " + emailId));
         startActivity(Intent.createChooser(emailIntent, getString(R.string.send_feedback_two)));
@@ -232,6 +234,17 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         else
             Toast.makeText(this, getString(R.string.please_write), Toast.LENGTH_LONG).show();
 
+    }
+
+    public String getAppLable(Context context) {
+
+        PackageManager packageManager = context.getPackageManager();
+        ApplicationInfo applicationInfo = null;
+        try {
+            applicationInfo = packageManager.getApplicationInfo(context.getApplicationInfo().packageName, 0);
+        } catch (final PackageManager.NameNotFoundException e) {
+        }
+        return (String) (applicationInfo != null ? packageManager.getApplicationLabel(applicationInfo) : "Unknown");
     }
 
 
