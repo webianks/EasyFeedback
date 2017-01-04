@@ -1,4 +1,4 @@
-package com.webianks.easy_feedback;
+package com.webianks.easy_feedback.text_formatting;
 
 import android.graphics.Typeface;
 import android.text.SpannableStringBuilder;

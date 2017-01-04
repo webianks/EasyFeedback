@@ -25,12 +25,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.webianks.easy_feedback.components.DeviceInfo;
+import com.webianks.easy_feedback.components.SystemLog;
 import com.webianks.easy_feedback.text_formatting.Spanning;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
+
+import static com.webianks.easy_feedback.components.DeviceInfo.Device.DEVICE_LANGUAGE;
 
 /**
  * Created by R Ankit on 28-10-2016.
@@ -55,6 +59,18 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         init();
         fillSpinnerWrapper();
         Spanning.colorPartOfText(info);
+
+
+        Log.d("webi",DeviceInfo.getDeviceInfo(this,DeviceInfo.Device.DEVICE_SYSTEM_VERSION));
+        Log.d("webi",DeviceInfo.getDeviceInfo(this,DeviceInfo.Device.DEVICE_VERSION));
+        Log.d("webi",DeviceInfo.getDeviceInfo(this,DEVICE_LANGUAGE));
+        Log.d("webi",DeviceInfo.getDeviceInfo(this,DeviceInfo.Device.DEVICE_TIME_ZONE));
+        Log.d("webi",DeviceInfo.getDeviceInfo(this,DeviceInfo.Device.DEVICE_TOTAL_MEMORY));
+        Log.d("webi",DeviceInfo.getDeviceInfo(this,DeviceInfo.Device.DEVICE_USED_MEMORY));
+        Log.d("webi",DeviceInfo.getDeviceInfo(this,DeviceInfo.Device.DEVICE_FREE_MEMORY));
+        Log.d("webi",DeviceInfo.getDeviceInfo(this,DeviceInfo.Device.DEVICE_TYPE));
+        Log.d("webi",DeviceInfo.getDataType(this));
+
 
     }
 
@@ -203,6 +219,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
     public void sendEmail(String body) {
 
         StringBuilder finalBody = new StringBuilder(body);
+
         finalBody.append(SystemLog.extractLogToString());
 
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO);

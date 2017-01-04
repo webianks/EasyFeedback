@@ -4,8 +4,6 @@ import android.graphics.Color;
 import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
 
-import com.webianks.easy_feedback.StyleableSpannableStringBuilder;
-
 /**
  * Created by R Ankit on 01-01-2017.
  */

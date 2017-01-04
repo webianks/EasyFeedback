@@ -1,4 +1,4 @@
-package com.webianks.easy_feedback;
+package com.webianks.easy_feedback.components;
 
 import java.io.BufferedReader;
 import java.io.IOException;

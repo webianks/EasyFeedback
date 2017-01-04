@@ -1,4 +1,4 @@
-package com.webianks.easy_feedback;
+package com.webianks.easy_feedback.components;
 
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
@@ -6,23 +6,11 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.os.Build;
-import android.provider.Settings;
 import android.telephony.TelephonyManager;
-import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.math.BigInteger;
-import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.UnknownHostException;
-import java.security.MessageDigest;
+
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -97,20 +85,6 @@ public class DeviceInfo {
                     return Runtime.getRuntime().availableProcessors() + "";
                 case DEVICE_LOCALE:
                     return Locale.getDefault().getISO3Country();
-                case DEVICE_IP_ADDRESS_IPV4:
-                    return getIPAddress(true);
-                case DEVICE_IP_ADDRESS_IPV6:
-                    return getIPAddress(false);
-                case DEVICE_MAC_ADDRESS:
-                    String mac = getMACAddress("wlan0");
-                    if (TextUtils.isEmpty(mac)) {
-                        mac = getMACAddress("eth0");
-                    }
-                    if (TextUtils.isEmpty(mac)) {
-                        mac = "DU:MM:YA:DD:RE:SS";
-                    }
-                    return mac;
-
                 case DEVICE_TOTAL_MEMORY:
                     if (Build.VERSION.SDK_INT >= 16)
                         return String.valueOf(getTotalMemory(activity));
@@ -122,42 +96,12 @@ public class DeviceInfo {
                         return String.valueOf(freeMem);
                     }
                     return "";
-                case DEVICE_TOTAL_CPU_USAGE:
-                    int[] cpu = getCpuUsageStatistic();
-                    if (cpu != null) {
-                        int total = cpu[0] + cpu[1] + cpu[2] + cpu[3];
-                        return String.valueOf(total);
-                    }
-                    return "";
-                case DEVICE_TOTAL_CPU_USAGE_SYSTEM:
-                    int[] cpu_sys = getCpuUsageStatistic();
-                    if (cpu_sys != null) {
-                        int total = cpu_sys[1];
-                        return String.valueOf(total);
-                    }
-                    return "";
-                case DEVICE_TOTAL_CPU_USAGE_USER:
-                    int[] cpu_usage = getCpuUsageStatistic();
-                    if (cpu_usage != null) {
-                        int total = cpu_usage[0];
-                        return String.valueOf(total);
-                    }
-                    return "";
-                case DEVICE_MANUFACTURE:
-                    return android.os.Build.MANUFACTURER;
                 case DEVICE_SYSTEM_VERSION:
                     return String.valueOf(getDeviceName());
                 case DEVICE_VERSION:
-                    return String.valueOf(android.os.Build.VERSION.SDK_INT);
+                    return String.valueOf("SDK "+android.os.Build.VERSION.SDK_INT);
                 case DEVICE_IN_INCH:
                     return getDeviceInch(activity);
-                case DEVICE_TOTAL_CPU_IDLE:
-                    int[] cpu_idle = getCpuUsageStatistic();
-                    if (cpu_idle != null) {
-                        int total = cpu_idle[2];
-                        return String.valueOf(total);
-                    }
-                    return "";
                 case DEVICE_NETWORK_TYPE:
                     return getNetworkType(activity);
                 case DEVICE_NETWORK:
@@ -182,26 +126,6 @@ public class DeviceInfo {
         return "";
     }
 
-    public static String getDeviceId(Context context) {
-        String device_uuid = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
-        if (device_uuid == null) {
-            device_uuid = "12356789"; // for emulator testing
-        } else {
-            try {
-                byte[] _data = device_uuid.getBytes();
-                MessageDigest _digest = java.security.MessageDigest.getInstance("MD5");
-                _digest.update(_data);
-                _data = _digest.digest();
-                BigInteger _bi = new BigInteger(_data).abs();
-                device_uuid = _bi.toString(36);
-            } catch (Exception e) {
-                if (e != null) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return device_uuid;
-    }
 
     @SuppressLint("NewApi")
     private static long getTotalMemory(Context activity) {
@@ -254,159 +178,6 @@ public class DeviceInfo {
         }
     }
 
-    /**
-     * Convert byte array to hex string
-     *
-     * @param bytes
-     * @return
-     */
-    private static String bytesToHex(byte[] bytes) {
-        StringBuilder sbuf = new StringBuilder();
-        for (int idx = 0; idx < bytes.length; idx++) {
-            int intVal = bytes[idx] & 0xff;
-            if (intVal < 0x10)
-                sbuf.append("0");
-            sbuf.append(Integer.toHexString(intVal).toUpperCase());
-        }
-        return sbuf.toString();
-    }
-
-    /**
-     * Returns MAC address of the given interface name.
-     *
-     * @param interfaceName eth0, wlan0 or NULL=use first interface
-     * @return mac address or empty string
-     */
-    @SuppressLint("NewApi")
-    private static String getMACAddress(String interfaceName) {
-        try {
-
-            List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
-            for (NetworkInterface intf : interfaces) {
-                if (interfaceName != null) {
-                    if (!intf.getName().equalsIgnoreCase(interfaceName))
-                        continue;
-                }
-                byte[] mac = intf.getHardwareAddress();
-                if (mac == null)
-                    return "";
-                StringBuilder buf = new StringBuilder();
-                for (int idx = 0; idx < mac.length; idx++)
-                    buf.append(String.format("%02X:", mac[idx]));
-                if (buf.length() > 0)
-                    buf.deleteCharAt(buf.length() - 1);
-                return buf.toString();
-            }
-        } catch (Exception ex) {
-            return "";
-        } // for now eat exceptions
-        return "";
-            /*
-             * try { // this is so Linux hack return
-             * loadFileAsString("/sys/class/net/" +interfaceName +
-             * "/address").toUpperCase().trim(); } catch (IOException ex) { return
-             * null; }
-             */
-    }
-
-    /**
-     * Get IP address from first non-localhost interface
-     *
-     * @return address or empty string
-     */
-    private static String getIPAddress(boolean useIPv4) {
-        try {
-            List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
-            for (NetworkInterface intf : interfaces) {
-                List<InetAddress> addrs = Collections.list(intf.getInetAddresses());
-                for (InetAddress addr : addrs) {
-                    if (!addr.isLoopbackAddress()) {
-                        String sAddr = addr.getHostAddress().toUpperCase();
-                        boolean isIPv4 = isValidIp4Address(sAddr);
-                        if (useIPv4) {
-                            if (isIPv4)
-                                return sAddr;
-                        } else {
-                            if (!isIPv4) {
-                                int delim = sAddr.indexOf('%'); // drop ip6 port
-                                // suffix
-                                return delim < 0 ? sAddr : sAddr.substring(0, delim);
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (Exception ex) {
-        } // for now eat exceptions
-        return "";
-    }
-
-    public static boolean isValidIp4Address(final String hostName) {
-        try {
-            return Inet4Address.getByName(hostName) != null;
-        } catch (UnknownHostException ex) {
-            return false;
-        }
-    }
-
-    /*
-     *
-     * @return integer Array with 4 elements: user, system, idle and other cpu
-     * usage in percentage.
-     */
-    private static int[] getCpuUsageStatistic() {
-        try {
-            String tempString = executeTop();
-
-            tempString = tempString.replaceAll(",", "");
-            tempString = tempString.replaceAll("User", "");
-            tempString = tempString.replaceAll("System", "");
-            tempString = tempString.replaceAll("IOW", "");
-            tempString = tempString.replaceAll("IRQ", "");
-            tempString = tempString.replaceAll("%", "");
-            for (int i = 0; i < 10; i++) {
-                tempString = tempString.replaceAll("  ", " ");
-            }
-            tempString = tempString.trim();
-            String[] myString = tempString.split(" ");
-            int[] cpuUsageAsInt = new int[myString.length];
-            for (int i = 0; i < myString.length; i++) {
-                myString[i] = myString[i].trim();
-                cpuUsageAsInt[i] = Integer.parseInt(myString[i]);
-            }
-            return cpuUsageAsInt;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.e("executeTop", "error in getting cpu statics");
-            return null;
-        }
-    }
-
-    private static String executeTop() {
-        java.lang.Process p = null;
-        BufferedReader in = null;
-        String returnString = null;
-        try {
-            p = Runtime.getRuntime().exec("top -n 1");
-            in = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            while (returnString == null || returnString.contentEquals("")) {
-                returnString = in.readLine();
-            }
-        } catch (IOException e) {
-            Log.e("executeTop", "error in getting first line of top");
-            e.printStackTrace();
-        } finally {
-            try {
-                in.close();
-                p.destroy();
-            } catch (IOException e) {
-                Log.e("executeTop", "error in closing and destroying top process");
-                e.printStackTrace();
-            }
-        }
-        return returnString;
-    }
 
     public static String getNetworkType(final Context activity) {
         String networkStatus = "";
