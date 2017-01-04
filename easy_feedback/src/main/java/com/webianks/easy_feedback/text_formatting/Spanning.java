@@ -1,5 +1,6 @@
 package com.webianks.easy_feedback.text_formatting;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
@@ -10,24 +11,27 @@ import android.widget.TextView;
 
 public class Spanning {
 
-    public static void colorPartOfText(TextView info, String appLable) {
+    public static void colorPartOfText(Context context,TextView info, String appLable) {
+
+
+        SpanHelper spanHelper = new SpanHelper(context);
 
         StyleableSpannableStringBuilder styleableSpannableStringBuilder = new StyleableSpannableStringBuilder();
-        styleableSpannableStringBuilder.append(SpanHelper.got_to_the);
-        styleableSpannableStringBuilder.appendWithStyle(SpanHelper.clickableSpan, SpanHelper.legel_page);
-        styleableSpannableStringBuilder.append(SpanHelper.to_request);
-        styleableSpannableStringBuilder.appendWithStyle(SpanHelper.clickableSpan2, SpanHelper.system_info);
+        styleableSpannableStringBuilder.append(spanHelper.got_to_the);
+        styleableSpannableStringBuilder.appendWithStyle(spanHelper.clickableSpan, spanHelper.legel_page);
+        styleableSpannableStringBuilder.append(spanHelper.to_request);
+        styleableSpannableStringBuilder.appendWithStyle(spanHelper.clickableSpanSystemInfo, spanHelper.system_info);
 
 
-        String will_be_sent = SpanHelper.will_be_sent.toString();
+        String will_be_sent = spanHelper.will_be_sent.toString();
 
         if (will_be_sent.contains("CompanyX"))
             will_be_sent = will_be_sent.replace("CompanyX",appLable);
 
         styleableSpannableStringBuilder.append(will_be_sent);
-        styleableSpannableStringBuilder.appendWithStyle(SpanHelper.clickableSpan3, SpanHelper.privacy);
-        styleableSpannableStringBuilder.append(SpanHelper.and);
-        styleableSpannableStringBuilder.appendWithStyle(SpanHelper.clickableSpan4, SpanHelper.terms_service);
+        styleableSpannableStringBuilder.appendWithStyle(spanHelper.clickableSpan3, spanHelper.privacy);
+        styleableSpannableStringBuilder.append(spanHelper.and);
+        styleableSpannableStringBuilder.appendWithStyle(spanHelper.clickableSpan4, spanHelper.terms_service);
 
         info.setText(styleableSpannableStringBuilder);
         info.setMovementMethod(LinkMovementMethod.getInstance());

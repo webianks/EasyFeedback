@@ -1,9 +1,14 @@
 package com.webianks.easy_feedback.text_formatting;
 
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.view.View;
+
+import com.webianks.easy_feedback.components.DeviceInfo;
 
 /**
  * Created by R Ankit on 01-01-2017.
@@ -11,21 +16,26 @@ import android.view.View;
 
 public class SpanHelper {
 
+    private Context context;
 
-    final static int colorBlue = 0xff0099cc;
+    public SpanHelper(Context context){
+        this.context = context;
+    }
 
-    public static CharSequence got_to_the = "Go to the";
-    public static CharSequence legel_page = " Legal Help Page";
-    public static CharSequence to_request = " to request content changes for legal reasons. Your ";
-    public static CharSequence system_info = "system info ";
-    public static CharSequence will_be_sent = "will be sent to CompanyX. See ";
-    public static CharSequence privacy = "privacy policy ";
-    public static CharSequence and = "and ";
-    public static CharSequence terms_service = "terms of service.";
+    final int colorBlue = 0xff0099cc;
+
+    public  CharSequence got_to_the = "Go to the";
+    public  CharSequence legel_page = " Legal Help Page";
+    public  CharSequence to_request = " to request content changes for legal reasons. Your ";
+    public  CharSequence system_info = "system info ";
+    public  CharSequence will_be_sent = "will be sent to CompanyX. See ";
+    public  CharSequence privacy = "privacy policy ";
+    public  CharSequence and = "and ";
+    public  CharSequence terms_service = "terms of service.";
 
 
 
-    public static ClickableSpan clickableSpan = new ClickableSpan() {
+    public  ClickableSpan clickableSpan = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
             //your code at here.
@@ -39,7 +49,33 @@ public class SpanHelper {
         }
     };
 
-    public static ClickableSpan clickableSpan2 = new ClickableSpan() {
+    public  ClickableSpan clickableSpanSystemInfo = new ClickableSpan() {
+        @Override
+        public void onClick(View widget) {
+            //your code at here.
+
+            new AlertDialog.Builder(context)
+                    .setTitle("System Info")
+                    .setMessage(DeviceInfo.getAllDeviceInfo(context,true))
+                    .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                           dialog.dismiss();
+                    }
+                    })
+                    .show();
+
+        }
+
+        @Override
+        public void updateDrawState(TextPaint ds) {
+            super.updateDrawState(ds);
+            ds.setUnderlineText(false);
+            ds.setColor(colorBlue);
+        }
+    };
+
+
+    public  ClickableSpan clickableSpan3 = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
             //your code at here.
@@ -54,22 +90,7 @@ public class SpanHelper {
     };
 
 
-    public static ClickableSpan clickableSpan3 = new ClickableSpan() {
-        @Override
-        public void onClick(View widget) {
-            //your code at here.
-        }
-
-        @Override
-        public void updateDrawState(TextPaint ds) {
-            super.updateDrawState(ds);
-            ds.setUnderlineText(false);
-            ds.setColor(colorBlue);
-        }
-    };
-
-
-    public static ClickableSpan clickableSpan4 = new ClickableSpan() {
+    public  ClickableSpan clickableSpan4 = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
             //your code at here.

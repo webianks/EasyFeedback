@@ -31,7 +31,11 @@ public class MainActivity extends AppCompatActivity {
             case R.id.ic_feedback:
 
                 EasyFeedback.init(this)
-                        .setEmail("webianks@gmail.com")
+                        .setEmail("webianks@gmail.com") // developer's Email-Id
+                        // setAccentColor [optional]
+                        // provide LegalHelpUrl [optional]
+                        // provide privacyPolicy [optional]
+                        // provide termsOfService [optional]
                         .start();
 
                 break;

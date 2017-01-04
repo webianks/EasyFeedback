@@ -59,9 +59,9 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
 
         init();
         fillSpinnerWrapper();
-        Spanning.colorPartOfText(info, getAppLable(this));
+        Spanning.colorPartOfText(this, info, getAppLable(this));
 
-        deviceInfo = DeviceInfo.getAllDeviceInfo(this);
+        deviceInfo = DeviceInfo.getAllDeviceInfo(this, false);
 
     }
 

@@ -8,9 +8,9 @@ import android.content.Intent;
  */
 public class Feedback {
 
-    Intent intent;
-    Feedback feedback;
-    Context context;
+    private Intent intent;
+    private Feedback feedback;
+    private Context context;
 
     public Feedback(Context context) {
 

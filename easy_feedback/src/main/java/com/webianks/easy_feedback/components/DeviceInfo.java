@@ -36,11 +36,14 @@ public class DeviceInfo {
     }
 
 
-    public static String getAllDeviceInfo(Context context) {
+    public static String getAllDeviceInfo(Context context, boolean fromDialog) {
 
-        StringBuilder stringBuilder = new StringBuilder("\n\n ==== SYSTEM-INFO ===\n\n");
+        StringBuilder stringBuilder = new StringBuilder();
 
-        stringBuilder.append("\n Device: " + getDeviceInfo(context, DeviceInfo.Device.DEVICE_SYSTEM_VERSION) + "\n");
+        if (!fromDialog)
+            stringBuilder = new StringBuilder("\n\n ==== SYSTEM-INFO ===\n\n");
+
+        stringBuilder.append("\n Device: " + getDeviceInfo(context, DeviceInfo.Device.DEVICE_SYSTEM_VERSION));
         stringBuilder.append("\n SDK Version: " + getDeviceInfo(context, DeviceInfo.Device.DEVICE_VERSION));
         stringBuilder.append("\n Language: " + getDeviceInfo(context, DEVICE_LANGUAGE));
         stringBuilder.append("\n TimeZone: " + getDeviceInfo(context, DeviceInfo.Device.DEVICE_TIME_ZONE));
