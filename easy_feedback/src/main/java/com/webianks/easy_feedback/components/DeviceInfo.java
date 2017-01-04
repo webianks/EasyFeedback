@@ -14,6 +14,8 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import static com.webianks.easy_feedback.components.DeviceInfo.Device.DEVICE_LANGUAGE;
+
 /**
  * Created by R Ankit on 08-12-2016.
  */
@@ -54,6 +56,23 @@ public class DeviceInfo {
          *
          */
         DEVICE_TOTAL_CPU_IDLE, DEVICE_IN_INCH;
+    }
+
+
+    public static String getAllDeviceInfo(Context context){
+
+        StringBuilder stringBuilder = new StringBuilder("\n\n ==== SYSTEM-INFO ===\n\n");
+
+        stringBuilder.append("\n Device: "+DeviceInfo.getDeviceInfo(context,DeviceInfo.Device.DEVICE_SYSTEM_VERSION)+"\n");
+        stringBuilder.append("\n SDK Version: "+DeviceInfo.getDeviceInfo(context,DeviceInfo.Device.DEVICE_VERSION));
+        stringBuilder.append("\n Language: "+DeviceInfo.getDeviceInfo(context,DEVICE_LANGUAGE));
+        stringBuilder.append("\n TimeZone: "+DeviceInfo.getDeviceInfo(context,DeviceInfo.Device.DEVICE_TIME_ZONE));
+        stringBuilder.append("\n Total Memory: "+DeviceInfo.getDeviceInfo(context,DeviceInfo.Device.DEVICE_TOTAL_MEMORY));
+        stringBuilder.append("\n Free Memory: "+DeviceInfo.getDeviceInfo(context,DeviceInfo.Device.DEVICE_FREE_MEMORY));
+        stringBuilder.append("\n Device Type: "+DeviceInfo.getDeviceInfo(context,DeviceInfo.Device.DEVICE_TYPE));
+        stringBuilder.append("\n Data Type: "+DeviceInfo.getDataType(context));
+
+        return stringBuilder.toString();
     }
 
 

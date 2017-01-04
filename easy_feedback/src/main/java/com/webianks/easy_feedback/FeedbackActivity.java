@@ -34,8 +34,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import static com.webianks.easy_feedback.components.DeviceInfo.Device.DEVICE_LANGUAGE;
-
 /**
  * Created by R Ankit on 28-10-2016.
  */
@@ -50,6 +48,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
     private EditText editText;
     private String emailId;
     private final int REQUEST_PERMISSIONS = 123;
+    private String deviceInfo;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,17 +59,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         fillSpinnerWrapper();
         Spanning.colorPartOfText(info);
 
-
-        Log.d("webi",DeviceInfo.getDeviceInfo(this,DeviceInfo.Device.DEVICE_SYSTEM_VERSION));
-        Log.d("webi",DeviceInfo.getDeviceInfo(this,DeviceInfo.Device.DEVICE_VERSION));
-        Log.d("webi",DeviceInfo.getDeviceInfo(this,DEVICE_LANGUAGE));
-        Log.d("webi",DeviceInfo.getDeviceInfo(this,DeviceInfo.Device.DEVICE_TIME_ZONE));
-        Log.d("webi",DeviceInfo.getDeviceInfo(this,DeviceInfo.Device.DEVICE_TOTAL_MEMORY));
-        Log.d("webi",DeviceInfo.getDeviceInfo(this,DeviceInfo.Device.DEVICE_USED_MEMORY));
-        Log.d("webi",DeviceInfo.getDeviceInfo(this,DeviceInfo.Device.DEVICE_FREE_MEMORY));
-        Log.d("webi",DeviceInfo.getDeviceInfo(this,DeviceInfo.Device.DEVICE_TYPE));
-        Log.d("webi",DeviceInfo.getDataType(this));
-
+        deviceInfo = DeviceInfo.getAllDeviceInfo(this);
 
     }
 
@@ -220,6 +209,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
 
         StringBuilder finalBody = new StringBuilder(body);
 
+        finalBody.append(deviceInfo);
         finalBody.append(SystemLog.extractLogToString());
 
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
