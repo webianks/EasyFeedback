@@ -12,12 +12,18 @@ public class EasyFeedback {
     private Context context;
     private String emailId;
     private boolean withSystemInfo;
+    private String legalHelp;
+    private String terms;
+    private String policy;
 
     public EasyFeedback(Builder builder) {
 
         this.emailId = builder.emailId;
         this.context = builder.context;
         this.withSystemInfo = builder.withSystemInfo;
+        this.policy = builder.policy;
+        this.terms = builder.terms;
+        this.legalHelp = builder.legalHelp;
 
     }
 
@@ -26,7 +32,9 @@ public class EasyFeedback {
         private Context context;
         private String emailId;
         private boolean withSystemInfo;
-
+        private String legalHelp;
+        private String terms;
+        private String policy;
 
         public Builder(Context context) {
             this.context = context;
@@ -42,6 +50,21 @@ public class EasyFeedback {
             return this;
         }
 
+        public Builder legalHelp(String legalHelp) {
+            this.legalHelp = legalHelp;
+            return this;
+        }
+
+        public Builder privacyPolicy(String policy) {
+            this.policy = policy;
+            return this;
+        }
+
+        public Builder termsOfService(String terms) {
+            this.terms = terms;
+            return this;
+        }
+
         public EasyFeedback build() {
             return new EasyFeedback(this);
         }
@@ -52,7 +75,10 @@ public class EasyFeedback {
 
         Intent intent = new Intent(context, FeedbackActivity.class);
         intent.putExtra("email", emailId);
-        intent.putExtra("with_info",withSystemInfo);
+        intent.putExtra("with_info", withSystemInfo);
+        intent.putExtra("policy", policy);
+        intent.putExtra("legal", legalHelp);
+        intent.putExtra("terms", terms);
         context.startActivity(intent);
 
 

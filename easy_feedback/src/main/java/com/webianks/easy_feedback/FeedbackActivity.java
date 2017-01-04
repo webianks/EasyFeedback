@@ -50,7 +50,13 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
     private EditText editText;
     private String emailId;
     private final int REQUEST_PERMISSIONS = 123;
+
     private String deviceInfo;
+
+    private String legalHelpLink;
+    private String privacyPolicyLink;
+    private String termsOfServiceLink;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,6 +70,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void init() {
+
         accountSpinner = (Spinner) findViewById(R.id.account_spinner);
         editText = (EditText) findViewById(R.id.editText);
         info = (TextView) findViewById(R.id.info_legal);
@@ -71,12 +78,18 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         submitSuggestion.setOnClickListener(this);
 
         emailId = getIntent().getStringExtra("email");
+        privacyPolicyLink = getIntent().getStringExtra("policy");
+        legalHelpLink = getIntent().getStringExtra("legal");
+        termsOfServiceLink = getIntent().getStringExtra("terms");
         boolean withInfo = getIntent().getBooleanExtra("with_info", false);
 
         if (withInfo) {
 
             deviceInfo = DeviceInfo.getAllDeviceInfo(this, false);
-            Spanning.colorPartOfText(this, info, getAppLable(this));
+
+            Spanning spanning = new Spanning(this, info, getAppLable(this));
+            spanning.colorPartOfText(legalHelpLink, termsOfServiceLink, privacyPolicyLink);
+
             info.setVisibility(View.VISIBLE);
         }
 

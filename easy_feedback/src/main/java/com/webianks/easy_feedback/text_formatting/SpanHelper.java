@@ -19,32 +19,42 @@ import com.webianks.easy_feedback.components.DeviceInfo;
 public class SpanHelper {
 
     private Context context;
+    private String legal;
+    private String terms;
+    private String policy;
 
-    public SpanHelper(Context context){
+
+    public SpanHelper(Context context, String legal, String terms, String policy) {
         this.context = context;
+        this.legal = legal;
+        this.terms = terms;
+        this.policy = policy;
     }
 
     final int colorBlue = 0xff0099cc;
 
-    public  CharSequence got_to_the = "Go to the";
-    public  CharSequence legel_page = " Legal Help Page";
-    public  CharSequence to_request = " to request content changes for legal reasons. Your ";
-    public  CharSequence system_info = "system info ";
-    public  CharSequence will_be_sent = "will be sent to CompanyX. See ";
-    public  CharSequence privacy = "privacy policy ";
-    public  CharSequence and = "and ";
-    public  CharSequence terms_service = "terms of service.";
+    public CharSequence got_to_the = "Go to the";
+    public CharSequence legel_page = " Legal Help Page";
+    public CharSequence to_request = " to request content changes for legal reasons. Your ";
+    public CharSequence system_info = "system info ";
+    public CharSequence will_be_sent = "will be sent to CompanyX. See ";
+    public CharSequence privacy = "privacy policy ";
+    public CharSequence and = "and ";
+    public CharSequence terms_service = "terms of service.";
 
 
-
-    public  ClickableSpan legalHelpSpan = new ClickableSpan() {
+    public ClickableSpan legalHelpSpan = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
 
-            String url = "http://www.webianks.com";
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse(url));
-            context.startActivity(intent);
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(legal));
+                context.startActivity(intent);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
@@ -55,17 +65,17 @@ public class SpanHelper {
         }
     };
 
-    public  ClickableSpan clickableSpanSystemInfo = new ClickableSpan() {
+    public ClickableSpan clickableSpanSystemInfo = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
 
             new AlertDialog.Builder(context)
                     .setTitle("System Info")
-                    .setMessage(DeviceInfo.getAllDeviceInfo(context,true))
+                    .setMessage(DeviceInfo.getAllDeviceInfo(context, true))
                     .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                           dialog.dismiss();
-                    }
+                            dialog.dismiss();
+                        }
                     })
                     .show();
 
@@ -80,14 +90,20 @@ public class SpanHelper {
     };
 
 
-    public  ClickableSpan privacyPolicySpan = new ClickableSpan() {
+    public ClickableSpan privacyPolicySpan = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
 
-            String url = "http://www.webianks.com";
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse(url));
-            context.startActivity(intent);
+            try {
+
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(policy));
+                context.startActivity(intent);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
 
         }
 
@@ -100,15 +116,20 @@ public class SpanHelper {
     };
 
 
-    public  ClickableSpan termsServiceSpan = new ClickableSpan() {
+    public ClickableSpan termsServiceSpan = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
             //your code at here.
 
-            String url = "http://www.webianks.com";
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse(url));
-            context.startActivity(intent);
+            try {
+
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(terms));
+                context.startActivity(intent);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         }
 

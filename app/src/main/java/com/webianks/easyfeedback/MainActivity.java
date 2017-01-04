@@ -30,13 +30,14 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.ic_feedback:
 
+                String url = "http://www.webianks.com";
+
                 new EasyFeedback.Builder(this)
                         .withEmail("webianks@gmail.com")
                         .withSystemInfo()
-                        // developer's Email-Id// setAccentColor [optional]
-                        // provide LegalHelpUrl [optional]
-                        // provide privacyPolicy [optional]
-                        // provide termsOfService [optional]
+                        .legalHelp(url)
+                        .privacyPolicy(url)
+                        .termsOfService(url)
                         .build()
                         .start();
 
