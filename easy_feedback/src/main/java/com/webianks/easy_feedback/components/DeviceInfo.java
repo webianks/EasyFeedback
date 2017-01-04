@@ -3,6 +3,8 @@ package com.webianks.easy_feedback.components;
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.telephony.TelephonyManager;
@@ -45,6 +47,7 @@ public class DeviceInfo {
 
         stringBuilder.append("\n Device: " + getDeviceInfo(context, DeviceInfo.Device.DEVICE_SYSTEM_VERSION));
         stringBuilder.append("\n SDK Version: " + getDeviceInfo(context, DeviceInfo.Device.DEVICE_VERSION));
+        stringBuilder.append("\n App Version: " + getAppVersion(context));
         stringBuilder.append("\n Language: " + getDeviceInfo(context, DEVICE_LANGUAGE));
         stringBuilder.append("\n TimeZone: " + getDeviceInfo(context, DeviceInfo.Device.DEVICE_TIME_ZONE));
         stringBuilder.append("\n Total Memory: " + getDeviceInfo(context, DeviceInfo.Device.DEVICE_TOTAL_MEMORY));
@@ -206,6 +209,20 @@ public class DeviceInfo {
         }
 
         return type;
+    }
+
+    public static String getAppVersion(Context context){
+
+        PackageInfo pInfo = null;
+        String version = " ";
+        try {
+            pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            version = pInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return version;
     }
 
 }
