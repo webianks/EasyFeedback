@@ -40,6 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_thirty_two"
+        android:visibility="gone"
         android:layout_marginRight="@dimen/margin_thirty_two"
         android:layout_marginTop="@dimen/margin_thirty_two" />
 

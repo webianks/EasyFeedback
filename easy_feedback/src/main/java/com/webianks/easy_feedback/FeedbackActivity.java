@@ -59,9 +59,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
 
         init();
         fillSpinnerWrapper();
-        Spanning.colorPartOfText(this, info, getAppLable(this));
 
-        deviceInfo = DeviceInfo.getAllDeviceInfo(this, false);
 
     }
 
@@ -73,6 +71,14 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         submitSuggestion.setOnClickListener(this);
 
         emailId = getIntent().getStringExtra("email");
+        boolean withInfo = getIntent().getBooleanExtra("with_info", false);
+
+        if (withInfo) {
+
+            deviceInfo = DeviceInfo.getAllDeviceInfo(this, false);
+            Spanning.colorPartOfText(this, info, getAppLable(this));
+            info.setVisibility(View.VISIBLE);
+        }
 
     }
 
