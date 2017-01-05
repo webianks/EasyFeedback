@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
                 new EasyFeedback.Builder(this)
                         .withEmail("webianks@gmail.com")
                         .withSystemInfo()
-                        .legalHelp(url)
                         .privacyPolicy(url)
                         .termsOfService(url)
                         .build()

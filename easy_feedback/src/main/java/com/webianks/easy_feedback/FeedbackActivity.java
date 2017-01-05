@@ -17,7 +17,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -43,19 +42,11 @@ import java.util.regex.Pattern;
 public class FeedbackActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Spinner accountSpinner;
-    private String TAG = FeedbackActivity.class.getSimpleName();
-    private int REQUEST_APP_SETTINGS = 321;
-    private TextView info;
-    private Button submitSuggestion;
     private EditText editText;
     private String emailId;
+    private final int REQUEST_APP_SETTINGS = 321;
     private final int REQUEST_PERMISSIONS = 123;
-
     private String deviceInfo;
-
-    private String legalHelpLink;
-    private String privacyPolicyLink;
-    private String termsOfServiceLink;
 
 
     @Override
@@ -73,26 +64,20 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
 
         accountSpinner = (Spinner) findViewById(R.id.account_spinner);
         editText = (EditText) findViewById(R.id.editText);
-        info = (TextView) findViewById(R.id.info_legal);
-        submitSuggestion = (Button) findViewById(R.id.submitSuggestion);
+
+        TextView info = (TextView) findViewById(R.id.info_legal);
+        Button submitSuggestion = (Button) findViewById(R.id.submitSuggestion);
         submitSuggestion.setOnClickListener(this);
 
         emailId = getIntent().getStringExtra("email");
-        privacyPolicyLink = getIntent().getStringExtra("policy");
-        legalHelpLink = getIntent().getStringExtra("legal");
-        termsOfServiceLink = getIntent().getStringExtra("terms");
+
+        String privacyPolicyLink = getIntent().getStringExtra("policy");
+        String termsOfServiceLink = getIntent().getStringExtra("terms");
         boolean withInfo = getIntent().getBooleanExtra("with_info", false);
 
-        if (withInfo) {
-
-            deviceInfo = DeviceInfo.getAllDeviceInfo(this, false);
-
-            Spanning spanning = new Spanning(this, info, getAppLable(this));
-            spanning.colorPartOfText(legalHelpLink, termsOfServiceLink, privacyPolicyLink);
-
-            info.setVisibility(View.VISIBLE);
-        }
-
+        deviceInfo = DeviceInfo.getAllDeviceInfo(this, false);
+        Spanning spanning = new Spanning(this, info, getAppLabel(this));
+        spanning.colorPartOfText(withInfo, termsOfServiceLink, privacyPolicyLink);
     }
 
 
@@ -125,7 +110,6 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
 
         Pattern emailPattern = Patterns.EMAIL_ADDRESS;
         Account[] accounts = AccountManager.get(this).getAccounts();
-        Log.d(TAG, " " + accounts.length);
         ArrayList<String> emails = new ArrayList<String>();
         for (Account account : accounts) {
             if (emailPattern.matcher(account.name).matches()) {
@@ -144,12 +128,14 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+
         new AlertDialog.Builder(this)
                 .setMessage(message)
                 .setPositiveButton("OK", okListener)
                 .setNegativeButton("Cancel", null)
                 .create()
                 .show();
+
     }
 
 
@@ -235,7 +221,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
 
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
         emailIntent.setType("text/html");
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, getAppLable(this) + " Feedback");
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, getAppLabel(this) + " Feedback");
         emailIntent.putExtra(Intent.EXTRA_TEXT, finalBody.toString());
         emailIntent.setData(Uri.parse("mailto: " + emailId));
         startActivity(Intent.createChooser(emailIntent, getString(R.string.send_feedback_two)));
@@ -255,7 +241,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
-    public String getAppLable(Context context) {
+    public String getAppLabel(Context context) {
 
         PackageManager packageManager = context.getPackageManager();
         ApplicationInfo applicationInfo = null;

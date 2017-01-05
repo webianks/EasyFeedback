@@ -22,24 +22,28 @@ public class Spanning {
         this.appLable = appLabel;
     }
 
-    public void colorPartOfText(String legal,String terms, String policy) {
+    public void colorPartOfText(boolean withInfo,String terms, String policy) {
 
 
-        SpanHelper spanHelper = new SpanHelper(context,legal,terms,policy);
+        SpanHelper spanHelper = new SpanHelper(context,terms,policy);
 
         StyleableSpannableStringBuilder styleableSpannableStringBuilder = new StyleableSpannableStringBuilder();
-        styleableSpannableStringBuilder.append(spanHelper.got_to_the);
-        styleableSpannableStringBuilder.appendWithStyle(spanHelper.legalHelpSpan, spanHelper.legel_page);
-        styleableSpannableStringBuilder.append(spanHelper.to_request);
-        styleableSpannableStringBuilder.appendWithStyle(spanHelper.clickableSpanSystemInfo, spanHelper.system_info);
 
 
-        String will_be_sent = spanHelper.will_be_sent.toString();
+        if (withInfo){
 
-        if (will_be_sent.contains("CompanyX"))
-            will_be_sent = will_be_sent.replace("CompanyX", appLable);
+            styleableSpannableStringBuilder.append(spanHelper.your);
+            styleableSpannableStringBuilder.appendWithStyle(spanHelper.clickableSpanSystemInfo, spanHelper.system_info);
 
-        styleableSpannableStringBuilder.append(will_be_sent);
+            String will_be_sent = spanHelper.will_be_sent.toString();
+
+            if (will_be_sent.contains("CompanyX"))
+                will_be_sent = will_be_sent.replace("CompanyX", appLable);
+
+            styleableSpannableStringBuilder.append(will_be_sent);
+        }
+
+        styleableSpannableStringBuilder.append(spanHelper.see);
         styleableSpannableStringBuilder.appendWithStyle(spanHelper.privacyPolicySpan, spanHelper.privacy);
         styleableSpannableStringBuilder.append(spanHelper.and);
         styleableSpannableStringBuilder.appendWithStyle(spanHelper.termsServiceSpan, spanHelper.terms_service);
