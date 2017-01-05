@@ -6,5 +6,6 @@
     <string name="from">From:</string>
     <string name="please_write">Please write something.</string>
     <string name="send_feedback_two">Send Feedback</string>
+    <string name="feedback">Feedback</string>
 
 </resources>

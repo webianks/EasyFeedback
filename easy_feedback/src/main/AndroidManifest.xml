@@ -10,7 +10,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true">
 
-        <activity android:name=".FeedbackActivity" />
+        <activity android:name=".FeedbackActivity"
+            android:label="@string/feedback"
+            />
 
     </application>
 
