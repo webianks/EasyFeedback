@@ -10,6 +10,7 @@
         android:layout_marginLeft="@dimen/margin_thirty_two"
         android:layout_marginRight="@dimen/margin_thirty_two"
         android:layout_marginTop="@dimen/margin_thirty_two"
+        android:visibility="gone"
         android:orientation="horizontal">
 
         <TextView
@@ -33,6 +34,15 @@
         android:layout_marginRight="@dimen/margin_thirty"
         android:layout_marginTop="@dimen/margin_thirty"
         android:hint="@string/your_input" />
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_thirty"
+        android:text="PICK"
+        android:onClick="selectImage"
+        />
 
 
     <TextView

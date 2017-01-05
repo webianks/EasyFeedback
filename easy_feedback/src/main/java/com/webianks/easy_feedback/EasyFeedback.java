@@ -28,6 +28,7 @@ public class EasyFeedback {
         private String emailId;
         private boolean withSystemInfo;
 
+
         public Builder(Context context) {
             this.context = context;
         }

@@ -8,9 +8,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -48,6 +50,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
     private final int REQUEST_PERMISSIONS = 123;
     private String deviceInfo;
     private boolean withInfo;
+    private int PICK_IMAGE_REQUEST = 125;
 
 
     @Override
@@ -55,7 +58,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.feedback_layout);
 
-        if (getSupportActionBar()!=null)
+        if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         init();
@@ -63,6 +66,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
 
 
     }
+
 
     private void init() {
 
@@ -84,6 +88,15 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         } else
             info.setVisibility(View.GONE);
 
+    }
+
+
+    public void selectImage(View view) {
+
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
 
 
@@ -206,6 +219,21 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
                         });
 
             }
+        } else if (requestCode == PICK_IMAGE_REQUEST &&
+                resultCode == RESULT_OK && data != null && data.getData() != null) {
+
+            Uri uri = data.getData();
+
+            String[] projection = { MediaStore.Images.Media.DATA };
+
+            Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(projection[0]);
+            String picturePath = cursor.getString(columnIndex); // returns null
+            cursor.close();
+
+
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -222,13 +250,13 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
 
         StringBuilder finalBody = new StringBuilder(body);
 
-        if (withInfo){
+        if (withInfo) {
             finalBody.append(deviceInfo);
             finalBody.append(SystemLog.extractLogToString());
         }
 
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
-        emailIntent.setType("text/html");
+        emailIntent.setType("image/jpeg");
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, getAppLabel(this) + " Feedback");
         emailIntent.putExtra(Intent.EXTRA_TEXT, finalBody.toString());
         emailIntent.setData(Uri.parse("mailto: " + emailId));
