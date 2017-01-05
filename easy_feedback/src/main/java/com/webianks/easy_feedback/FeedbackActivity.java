@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -199,7 +200,19 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
-                                goToSettings();
+
+                                if (!ActivityCompat.shouldShowRequestPermissionRationale(FeedbackActivity.this
+                                        ,Manifest.permission.GET_ACCOUNTS)) {
+
+                                    goToSettings();
+
+                                }else{
+
+                                    ActivityCompat.requestPermissions(FeedbackActivity.this,
+                                            new String[]{android.Manifest.permission.GET_ACCOUNTS},
+                                            REQUEST_PERMISSIONS);
+                                }
+
 
                             }
                         });
