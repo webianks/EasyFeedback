@@ -27,7 +27,7 @@ public class SpanHelper {
 
     CharSequence your = "Your ";
     CharSequence system_info = "system info ";
-    CharSequence will_be_sent = "will be sent to CompanyX. ";
+    CharSequence will_be_sent = "and log data will be sent to CompanyX. ";
 
 
     public ClickableSpan clickableSpanSystemInfo = new ClickableSpan() {

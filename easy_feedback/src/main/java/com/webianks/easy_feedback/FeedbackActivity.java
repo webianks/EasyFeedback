@@ -24,7 +24,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.webianks.easy_feedback.components.DeviceInfo;
 import com.webianks.easy_feedback.components.SystemLog;
@@ -73,8 +72,13 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         boolean withInfo = getIntent().getBooleanExtra("with_info", false);
 
         deviceInfo = DeviceInfo.getAllDeviceInfo(this, false);
-        Spanning spanning = new Spanning(this, info, getAppLabel(this));
-        spanning.colorPartOfText(withInfo);
+
+        if (withInfo) {
+            Spanning spanning = new Spanning(this, info, getAppLabel(this));
+            spanning.colorPartOfText(withInfo);
+        } else
+            info.setVisibility(View.GONE);
+
     }
 
 
@@ -234,7 +238,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         if (suggestion.trim().length() > 0)
             sendEmail(suggestion);
         else
-            Toast.makeText(this, getString(R.string.please_write), Toast.LENGTH_LONG).show();
+            editText.setError(getString(R.string.please_write));
 
     }
 
