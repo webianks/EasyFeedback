@@ -22,10 +22,10 @@ public class Spanning {
         this.appLable = appLabel;
     }
 
-    public void colorPartOfText(boolean withInfo,String terms, String policy) {
+    public void colorPartOfText(boolean withInfo) {
 
 
-        SpanHelper spanHelper = new SpanHelper(context,terms,policy);
+        SpanHelper spanHelper = new SpanHelper(context);
 
         StyleableSpannableStringBuilder styleableSpannableStringBuilder = new StyleableSpannableStringBuilder();
 
@@ -42,11 +42,6 @@ public class Spanning {
 
             styleableSpannableStringBuilder.append(will_be_sent);
         }
-
-        styleableSpannableStringBuilder.append(spanHelper.see);
-        styleableSpannableStringBuilder.appendWithStyle(spanHelper.privacyPolicySpan, spanHelper.privacy);
-        styleableSpannableStringBuilder.append(spanHelper.and);
-        styleableSpannableStringBuilder.appendWithStyle(spanHelper.termsServiceSpan, spanHelper.terms_service);
 
         info.setText(styleableSpannableStringBuilder);
         info.setMovementMethod(LinkMovementMethod.getInstance());

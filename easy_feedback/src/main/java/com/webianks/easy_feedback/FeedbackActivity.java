@@ -70,14 +70,11 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         submitSuggestion.setOnClickListener(this);
 
         emailId = getIntent().getStringExtra("email");
-
-        String privacyPolicyLink = getIntent().getStringExtra("policy");
-        String termsOfServiceLink = getIntent().getStringExtra("terms");
         boolean withInfo = getIntent().getBooleanExtra("with_info", false);
 
         deviceInfo = DeviceInfo.getAllDeviceInfo(this, false);
         Spanning spanning = new Spanning(this, info, getAppLabel(this));
-        spanning.colorPartOfText(withInfo, termsOfServiceLink, privacyPolicyLink);
+        spanning.colorPartOfText(withInfo);
     }
 
 
