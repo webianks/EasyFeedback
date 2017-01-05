@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -48,6 +47,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
     private final int REQUEST_APP_SETTINGS = 321;
     private final int REQUEST_PERMISSIONS = 123;
     private String deviceInfo;
+    private boolean withInfo;
 
 
     @Override
@@ -74,13 +74,13 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         submitSuggestion.setOnClickListener(this);
 
         emailId = getIntent().getStringExtra("email");
-        boolean withInfo = getIntent().getBooleanExtra("with_info", false);
+        withInfo = getIntent().getBooleanExtra("with_info", false);
 
         deviceInfo = DeviceInfo.getAllDeviceInfo(this, false);
 
         if (withInfo) {
             Spanning spanning = new Spanning(this, info, getAppLabel(this));
-            spanning.colorPartOfText(withInfo);
+            spanning.colorPartOfText();
         } else
             info.setVisibility(View.GONE);
 
@@ -200,19 +200,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
-
-                                if (!ActivityCompat.shouldShowRequestPermissionRationale(FeedbackActivity.this
-                                        ,Manifest.permission.GET_ACCOUNTS)) {
-
-                                    goToSettings();
-
-                                }else{
-
-                                    ActivityCompat.requestPermissions(FeedbackActivity.this,
-                                            new String[]{android.Manifest.permission.GET_ACCOUNTS},
-                                            REQUEST_PERMISSIONS);
-                                }
-
+                                goToSettings();
 
                             }
                         });
@@ -234,8 +222,10 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
 
         StringBuilder finalBody = new StringBuilder(body);
 
-        finalBody.append(deviceInfo);
-        finalBody.append(SystemLog.extractLogToString());
+        if (withInfo){
+            finalBody.append(deviceInfo);
+            finalBody.append(SystemLog.extractLogToString());
+        }
 
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
         emailIntent.setType("text/html");

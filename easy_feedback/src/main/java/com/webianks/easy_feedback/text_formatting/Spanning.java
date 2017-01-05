@@ -22,7 +22,7 @@ public class Spanning {
         this.appLable = appLabel;
     }
 
-    public void colorPartOfText(boolean withInfo) {
+    public void colorPartOfText() {
 
 
         SpanHelper spanHelper = new SpanHelper(context);
@@ -30,18 +30,15 @@ public class Spanning {
         StyleableSpannableStringBuilder styleableSpannableStringBuilder = new StyleableSpannableStringBuilder();
 
 
-        if (withInfo){
+        styleableSpannableStringBuilder.append(spanHelper.your);
+        styleableSpannableStringBuilder.appendWithStyle(spanHelper.clickableSpanSystemInfo, spanHelper.system_info);
 
-            styleableSpannableStringBuilder.append(spanHelper.your);
-            styleableSpannableStringBuilder.appendWithStyle(spanHelper.clickableSpanSystemInfo, spanHelper.system_info);
+        String will_be_sent = spanHelper.will_be_sent.toString();
 
-            String will_be_sent = spanHelper.will_be_sent.toString();
+        if (will_be_sent.contains("CompanyX"))
+            will_be_sent = will_be_sent.replace("CompanyX", appLable);
 
-            if (will_be_sent.contains("CompanyX"))
-                will_be_sent = will_be_sent.replace("CompanyX", appLable);
-
-            styleableSpannableStringBuilder.append(will_be_sent);
-        }
+        styleableSpannableStringBuilder.append(will_be_sent);
 
         info.setText(styleableSpannableStringBuilder);
         info.setMovementMethod(LinkMovementMethod.getInstance());
