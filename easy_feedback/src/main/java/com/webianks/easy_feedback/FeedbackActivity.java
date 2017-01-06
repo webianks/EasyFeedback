@@ -240,8 +240,11 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         emailIntent.setType("*/*");
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, getAppLabel(this) + " Feedback");
 
-        Uri uri = Uri.parse("file://" + realPath);
-        emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        if (realPath!=null){
+            Uri uri = Uri.parse("file://" + realPath);
+            emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        }
+
         emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{emailId});
         emailIntent.putExtra(Intent.EXTRA_TEXT, finalBody.toString());
 

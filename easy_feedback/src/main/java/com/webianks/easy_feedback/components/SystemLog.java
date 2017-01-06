@@ -21,7 +21,7 @@ public class SystemLog {
             Process process = Runtime.getRuntime().exec(command);
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            String currentLine = null;
+            String currentLine;
 
             while ((currentLine = reader.readLine()) != null) {
                 if (currentLine != null && currentLine.contains(String.valueOf(pid))) {

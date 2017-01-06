@@ -1,4 +1,6 @@
-package com.webianks.easy_feedback.components; /**
+package com.webianks.easy_feedback.components;
+
+/**
  * Created by R Ankit on 06-01-2017.
  */
 
@@ -194,7 +196,7 @@ public class Utils {
 
     public static Intent createEmailOnlyChooserIntent(Context context, Intent source,
                                                       CharSequence chooserTitle) {
-        Stack<Intent> intents = new Stack<Intent>();
+        Stack<Intent> intents = new Stack<>();
         Intent i = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto",
                 "info@domain.com", null));
         List<ResolveInfo> activities = context.getPackageManager()
