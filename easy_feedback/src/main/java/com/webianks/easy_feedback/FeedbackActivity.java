@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.webianks.easy_feedback.components.DeviceInfo;
 import com.webianks.easy_feedback.components.SystemLog;
+import com.webianks.easy_feedback.components.Utils;
 import com.webianks.easy_feedback.text_formatting.Spanning;
 
 
@@ -118,6 +119,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
 
     private void selectPicture() {
 
+        realPath = null;
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -203,10 +205,10 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         } else if (requestCode == PICK_IMAGE_REQUEST &&
                 resultCode == RESULT_OK && data != null && data.getData() != null) {
 
-            realPath = Utils.getPath(this,data.getData());
+            realPath = Utils.getPath(this, data.getData());
 
             selectedImageView.setImageBitmap(Utils.decodeSampledBitmap(realPath,
-                            selectedImageView.getWidth(), selectedImageView.getHeight()));
+                    selectedImageView.getWidth(), selectedImageView.getHeight()));
 
             selectContainer.setVisibility(View.GONE);
 
@@ -235,14 +237,15 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         }
 
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
-        emailIntent.setType("application/image");
+        emailIntent.setType("*/*");
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, getAppLabel(this) + " Feedback");
-        emailIntent.putExtra(Intent.EXTRA_TEXT, finalBody.toString());
-        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{emailId});
 
         Uri uri = Uri.parse("file://" + realPath);
         emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
-        startActivity(Intent.createChooser(emailIntent, getString(R.string.send_feedback_two)));
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{emailId});
+        emailIntent.putExtra(Intent.EXTRA_TEXT, finalBody.toString());
+
+        startActivity(Utils.createEmailOnlyChooserIntent(this, emailIntent, getString(R.string.send_feedback_two)));
 
     }
 

@@ -1,75 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-
-    <EditText
-        android:id="@+id/editText"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_thirty"
-        android:layout_marginRight="@dimen/margin_thirty"
-        android:layout_marginTop="@dimen/margin_thirty"
-        android:hint="@string/your_input" />
+        android:orientation="vertical">
 
 
-    <FrameLayout
-        android:id="@+id/selectImage"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_marginLeft="@dimen/margin_thirty"
-        android:layout_marginRight="@dimen/margin_thirty"
-        android:layout_marginTop="@dimen/margin_thirty"
-        android:background="@color/grey"
-        android:clickable="true">
-
-        <ImageView
-            android:id="@+id/selectedImageView"
+        <EditText
+            android:id="@+id/editText"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:scaleType="centerCrop" />
-
-        <LinearLayout
-            android:id="@+id/selectContainer"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
+            android:layout_marginLeft="@dimen/margin_thirty"
+            android:layout_marginRight="@dimen/margin_thirty"
+            android:layout_marginTop="@dimen/margin_thirty"
+            android:hint="@string/your_input" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/select_image"
-                android:layout_gravity="center"
-                android:textSize="20sp"
-                />
+
+        <FrameLayout
+            android:id="@+id/selectImage"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginLeft="@dimen/margin_thirty"
+            android:layout_marginRight="@dimen/margin_thirty"
+            android:layout_marginTop="@dimen/margin_thirty"
+            android:background="@color/grey"
+            android:clickable="true">
 
             <ImageView
+                android:id="@+id/selectedImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:scaleType="centerCrop" />
+
+            <LinearLayout
+                android:id="@+id/selectContainer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_insert_photo_black_48dp" />
+                android:layout_gravity="center"
+                android:orientation="horizontal">
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/select_image"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_insert_photo_black_48dp" />
+
+            </LinearLayout>
 
 
-    </FrameLayout>
+        </FrameLayout>
 
-    <TextView
-        android:id="@+id/info_legal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_thirty_two"
-        android:layout_marginRight="@dimen/margin_thirty_two"
-        android:layout_marginTop="@dimen/margin_thirty_two" />
+        <TextView
+            android:id="@+id/info_legal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_thirty_two"
+            android:layout_marginRight="@dimen/margin_thirty_two"
+            android:layout_marginTop="@dimen/margin_thirty_two" />
 
-    <Button
-        android:id="@+id/submitSuggestion"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_thirty"
-        android:text="@string/send_feedback" />
+        <Button
+            android:id="@+id/submitSuggestion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_thirty"
+            android:text="@string/send_feedback" />
 
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>
