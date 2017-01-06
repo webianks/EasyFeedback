@@ -17,14 +17,15 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.webianks.easy_feedback.components.DeviceInfo;
 import com.webianks.easy_feedback.components.SystemLog;
@@ -46,6 +47,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
     private int PICK_IMAGE_REQUEST = 125;
     private String realPath;
     private ImageView selectedImageView;
+    private LinearLayout selectContainer;
 
 
     @Override
@@ -70,6 +72,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         FrameLayout selectImage = (FrameLayout) findViewById(R.id.selectImage);
         Button submitSuggestion = (Button) findViewById(R.id.submitSuggestion);
         selectedImageView = (ImageView) findViewById(R.id.selectedImageView);
+        selectContainer = (LinearLayout) findViewById(R.id.selectContainer);
 
         submitSuggestion.setOnClickListener(this);
         selectImage.setOnClickListener(this);
@@ -89,7 +92,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
     }
 
 
-    public void selectImage(View view) {
+    public void selectImage() {
 
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -209,9 +212,10 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
 
             Bitmap bitmap = BitmapFactory.decodeFile(realPath);
             selectedImageView.setImageBitmap(bitmap);
+            selectContainer.setVisibility(View.GONE);
 
+            Toast.makeText(this,getString(R.string.click_again),Toast.LENGTH_SHORT).show();
 
-            Log.d("webi", realPath);
 
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -259,7 +263,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
                     editText.setError(getString(R.string.please_write));
 
             }else if (view.getId() == R.id.selectImage)
-                selectPicture();
+                selectImage();
     }
 
 

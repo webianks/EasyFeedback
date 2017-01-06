@@ -7,6 +7,7 @@
     <string name="please_write">Please write something.</string>
     <string name="send_feedback_two">Send Feedback</string>
     <string name="feedback">Feedback</string>
-    <string name="select_image">+</string>
+    <string name="select_image">+ Add Screenshot</string>
+    <string name="click_again">Click again to change the image</string>
 
 </resources>
