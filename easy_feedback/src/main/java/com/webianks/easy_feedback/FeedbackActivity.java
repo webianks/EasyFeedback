@@ -40,6 +40,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
     private String deviceInfo;
     private boolean withInfo;
     private int PICK_IMAGE_REQUEST = 125;
+    private String realPath;
 
 
     @Override
@@ -192,8 +193,6 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         } else if (requestCode == PICK_IMAGE_REQUEST &&
                 resultCode == RESULT_OK && data != null && data.getData() != null) {
 
-            String realPath;
-
             if (Build.VERSION.SDK_INT < 19)
                 realPath = RealPathUtil.getRealPathFromURI_API11to18(this, data.getData());
             else
@@ -222,11 +221,14 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
             finalBody.append(SystemLog.extractLogToString());
         }
 
-        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
-        emailIntent.setType("image/jpeg");
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        emailIntent.setType("application/image");
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, getAppLabel(this) + " Feedback");
         emailIntent.putExtra(Intent.EXTRA_TEXT, finalBody.toString());
-        emailIntent.setData(Uri.parse("mailto: " + emailId));
+        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{emailId});
+
+        Uri uri = Uri.parse("file://" + realPath);
+        emailIntent.putExtra(Intent.EXTRA_STREAM,uri);
         startActivity(Intent.createChooser(emailIntent, getString(R.string.send_feedback_two)));
 
     }
