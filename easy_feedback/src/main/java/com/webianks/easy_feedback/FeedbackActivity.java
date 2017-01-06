@@ -6,8 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -205,16 +203,14 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         } else if (requestCode == PICK_IMAGE_REQUEST &&
                 resultCode == RESULT_OK && data != null && data.getData() != null) {
 
-            if (Build.VERSION.SDK_INT < 19)
-                realPath = RealPathUtil.getRealPathFromURI_API11to18(this, data.getData());
-            else
-                realPath = RealPathUtil.getRealPathFromURI_API19(this, data.getData());
+            realPath = Utils.getPath(this,data.getData());
 
-            Bitmap bitmap = BitmapFactory.decodeFile(realPath);
-            selectedImageView.setImageBitmap(bitmap);
+            selectedImageView.setImageBitmap(Utils.decodeSampledBitmap(realPath,
+                            selectedImageView.getWidth(), selectedImageView.getHeight()));
+
             selectContainer.setVisibility(View.GONE);
 
-            Toast.makeText(this,getString(R.string.click_again),Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.click_again), Toast.LENGTH_SHORT).show();
 
 
         }
@@ -254,16 +250,16 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View view) {
 
-            if (view.getId() == R.id.submitSuggestion){
+        if (view.getId() == R.id.submitSuggestion) {
 
-                String suggestion = editText.getText().toString();
-                if (suggestion.trim().length() > 0)
-                    sendEmail(suggestion);
-                else
-                    editText.setError(getString(R.string.please_write));
+            String suggestion = editText.getText().toString();
+            if (suggestion.trim().length() > 0)
+                sendEmail(suggestion);
+            else
+                editText.setError(getString(R.string.please_write));
 
-            }else if (view.getId() == R.id.selectImage)
-                selectImage();
+        } else if (view.getId() == R.id.selectImage)
+            selectImage();
     }
 
 
