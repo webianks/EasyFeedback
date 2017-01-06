@@ -15,14 +15,33 @@
         android:hint="@string/your_input" />
 
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_thirty"
-        android:text="PICK"
-        android:onClick="selectImage"
-        />
 
+    <FrameLayout
+        android:id="@+id/selectImage"
+        android:layout_marginLeft="@dimen/margin_thirty"
+        android:layout_marginRight="@dimen/margin_thirty"
+        android:layout_marginTop="@dimen/margin_thirty"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@color/grey"
+        android:clickable="true"
+        >
+
+        <ImageView
+            android:id="@+id/selectedImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitStart"
+            />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            />
+
+
+    </FrameLayout>
 
     <TextView
         android:id="@+id/info_legal"

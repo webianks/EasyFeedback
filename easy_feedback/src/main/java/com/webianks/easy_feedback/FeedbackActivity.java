@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.webianks.easy_feedback.components.DeviceInfo;
@@ -62,8 +63,12 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         editText = (EditText) findViewById(R.id.editText);
 
         TextView info = (TextView) findViewById(R.id.info_legal);
+        FrameLayout selectImage = (FrameLayout) findViewById(R.id.selectImage);
         Button submitSuggestion = (Button) findViewById(R.id.submitSuggestion);
+
         submitSuggestion.setOnClickListener(this);
+        selectImage.setOnClickListener(this);
+
 
         emailId = getIntent().getStringExtra("email");
         withInfo = getIntent().getBooleanExtra("with_info", false);
@@ -101,7 +106,6 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
             //normal process
             selectPicture();
         }
-
 
 
     }
@@ -198,7 +202,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
             else
                 realPath = RealPathUtil.getRealPathFromURI_API19(this, data.getData());
 
-            Log.d("webi",realPath);
+            Log.d("webi", realPath);
 
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -228,7 +232,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{emailId});
 
         Uri uri = Uri.parse("file://" + realPath);
-        emailIntent.putExtra(Intent.EXTRA_STREAM,uri);
+        emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
         startActivity(Intent.createChooser(emailIntent, getString(R.string.send_feedback_two)));
 
     }
@@ -237,13 +241,16 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View view) {
 
-        String suggestion = editText.getText().toString();
+            if (view.getId() == R.id.submitSuggestion){
 
-        if (suggestion.trim().length() > 0)
-            sendEmail(suggestion);
-        else
-            editText.setError(getString(R.string.please_write));
+                String suggestion = editText.getText().toString();
+                if (suggestion.trim().length() > 0)
+                    sendEmail(suggestion);
+                else
+                    editText.setError(getString(R.string.please_write));
 
+            }else if (view.getId() == R.id.selectImage)
+                selectPicture();
     }
 
 
