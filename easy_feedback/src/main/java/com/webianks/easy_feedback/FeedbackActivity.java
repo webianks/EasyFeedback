@@ -171,7 +171,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_APP_SETTINGS) {
 
-            if (hasPermissions(Manifest.permission.GET_ACCOUNTS)) {
+            if (hasPermissions(Manifest.permission.READ_EXTERNAL_STORAGE)) {
 
                 //Toast.makeText(this, "All permissions granted!", Toast.LENGTH_SHORT).show();
                 selectPicture();

@@ -4,27 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_thirty_two"
-        android:layout_marginRight="@dimen/margin_thirty_two"
-        android:layout_marginTop="@dimen/margin_thirty_two"
-        android:visibility="gone"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/from" />
-
-        <Spinner
-            android:id="@+id/account_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
-
-    </LinearLayout>
 
     <EditText
         android:id="@+id/editText"
