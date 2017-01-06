@@ -1,41 +1,31 @@
 package com.webianks.easy_feedback;
 
 import android.Manifest;
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Patterns;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.webianks.easy_feedback.components.DeviceInfo;
 import com.webianks.easy_feedback.components.SystemLog;
 import com.webianks.easy_feedback.text_formatting.Spanning;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.regex.Pattern;
 
 /**
  * Created by R Ankit on 28-10-2016.
@@ -43,7 +33,6 @@ import java.util.regex.Pattern;
 
 public class FeedbackActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Spinner accountSpinner;
     private EditText editText;
     private String emailId;
     private final int REQUEST_APP_SETTINGS = 321;
@@ -62,7 +51,6 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         init();
-        fillSpinnerWrapper();
 
 
     }
@@ -70,7 +58,6 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
 
     private void init() {
 
-        accountSpinner = (Spinner) findViewById(R.id.account_spinner);
         editText = (EditText) findViewById(R.id.editText);
 
         TextView info = (TextView) findViewById(R.id.info_legal);
@@ -93,58 +80,39 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
 
     public void selectImage(View view) {
 
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+
+            int hasWriteContactsPermission = checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE);
+            if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
+
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        REQUEST_PERMISSIONS);
+                return;
+
+            } else
+                //already granted
+                selectPicture();
+
+
+        } else {
+            //normal process
+            selectPicture();
+        }
+
+
+
+    }
+
+    private void selectPicture() {
+
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
 
-
-    private void fillSpinnerWrapper() {
-
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-
-            int hasWriteContactsPermission = checkSelfPermission(android.Manifest.permission.GET_ACCOUNTS);
-            if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
-
-                requestPermissions(new String[]{android.Manifest.permission.GET_ACCOUNTS},
-                        REQUEST_PERMISSIONS);
-                return;
-
-            } else
-                //already granted
-                fillSpinner();
-
-
-        } else {
-            //normal process
-            fillSpinner();
-        }
-
-    }
-
-
-    private void fillSpinner() {
-
-        Pattern emailPattern = Patterns.EMAIL_ADDRESS;
-        Account[] accounts = AccountManager.get(this).getAccounts();
-        ArrayList<String> emails = new ArrayList<String>();
-        for (Account account : accounts) {
-            if (emailPattern.matcher(account.name).matches()) {
-                emails.add(account.name);
-            }
-        }
-
-        Set<String> noDups = new HashSet<String>();
-        noDups.addAll(emails);
-        ArrayList<String> finalEmails = new ArrayList<String>(noDups);
-
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_dropdown_item, finalEmails);
-        accountSpinner.setAdapter(dataAdapter);
-
-    }
 
     private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
 
@@ -166,11 +134,11 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
 
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // Permission Granted
-                    fillSpinner();
+                    selectPicture();
 
                 } else {
                     // Permission Denied
-                    showMessageOKCancel("You need to allow access to Accounts to access your email id.",
+                    showMessageOKCancel("You need to allow access to SD card to select images.",
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -190,11 +158,13 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
 
 
     private void goToSettings() {
+
         Intent myAppSettings = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
                 Uri.parse("package:" + getPackageName()));
         myAppSettings.addCategory(Intent.CATEGORY_DEFAULT);
         myAppSettings.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivityForResult(myAppSettings, REQUEST_APP_SETTINGS);
+
     }
 
     @Override
@@ -204,11 +174,11 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
             if (hasPermissions(Manifest.permission.GET_ACCOUNTS)) {
 
                 //Toast.makeText(this, "All permissions granted!", Toast.LENGTH_SHORT).show();
-                fillSpinner();
+                selectPicture();
 
             } else {
 
-                showMessageOKCancel("You need to allow access to Accounts to access your email id.",
+                showMessageOKCancel("You need to allow access to SD card to select images.",
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -222,17 +192,14 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         } else if (requestCode == PICK_IMAGE_REQUEST &&
                 resultCode == RESULT_OK && data != null && data.getData() != null) {
 
-            Uri uri = data.getData();
+            String realPath;
 
-            String[] projection = { MediaStore.Images.Media.DATA };
+            if (Build.VERSION.SDK_INT < 19)
+                realPath = RealPathUtil.getRealPathFromURI_API11to18(this, data.getData());
+            else
+                realPath = RealPathUtil.getRealPathFromURI_API19(this, data.getData());
 
-            Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
-            cursor.moveToFirst();
-
-            int columnIndex = cursor.getColumnIndex(projection[0]);
-            String picturePath = cursor.getString(columnIndex); // returns null
-            cursor.close();
-
+            Log.d("webi",realPath);
 
         }
         super.onActivityResult(requestCode, resultCode, data);
