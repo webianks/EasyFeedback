@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,6 +23,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.webianks.easy_feedback.components.DeviceInfo;
@@ -42,6 +45,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
     private boolean withInfo;
     private int PICK_IMAGE_REQUEST = 125;
     private String realPath;
+    private ImageView selectedImageView;
 
 
     @Override
@@ -65,6 +69,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         TextView info = (TextView) findViewById(R.id.info_legal);
         FrameLayout selectImage = (FrameLayout) findViewById(R.id.selectImage);
         Button submitSuggestion = (Button) findViewById(R.id.submitSuggestion);
+        selectedImageView = (ImageView) findViewById(R.id.selectedImageView);
 
         submitSuggestion.setOnClickListener(this);
         selectImage.setOnClickListener(this);
@@ -201,6 +206,10 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
                 realPath = RealPathUtil.getRealPathFromURI_API11to18(this, data.getData());
             else
                 realPath = RealPathUtil.getRealPathFromURI_API19(this, data.getData());
+
+            Bitmap bitmap = BitmapFactory.decodeFile(realPath);
+            selectedImageView.setImageBitmap(bitmap);
+
 
             Log.d("webi", realPath);
 
