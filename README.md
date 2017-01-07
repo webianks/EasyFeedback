@@ -1,6 +1,8 @@
 # EasyFeedback
 Easily gather feedback from any android application.
 
+<img src="https://github.com/webianks/EasyFeedback/blob/master/screenshots/screen_one.png" height="700" width="400" >
+
 #Min SDK
 15
 
