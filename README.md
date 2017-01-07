@@ -1,8 +1,26 @@
 # EasyFeedback
-✏️ Easily gather feedback from any android application.
+Easily gather feedback from any android application.
 
+#Min SDK
+15
 
+#Download
 
+**Gradle**
+
+```groovy
+compile 'com.webianks.library:easy-feedback:1.0.0'
+```
+**Maven**
+
+```xml
+<dependency>
+  <groupId>com.webianks.library</groupId>
+  <artifactId>easy-feedback</artifactId>
+  <version>1.0.0</version>
+  <type>pom</type>
+</dependency>
+```
 
 #LICENSE
 
