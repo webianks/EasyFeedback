@@ -9,7 +9,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/easy_feedback" />
+            <option value="$PROJECT_DIR$/easy-feedback" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

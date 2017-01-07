@@ -1,0 +1,51 @@
+apply plugin: 'com.android.library'
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'easy-feedback'
+
+    publishedGroupId = 'com.webianks.library'
+    libraryName = 'easy-feedback'
+    artifact = 'easy-feedback'
+
+    libraryDescription = 'Easily gather feedback from any android application.'
+
+    siteUrl = 'https://github.com/webianks/EasyFeedback'
+    gitUrl = 'https://github.com/webianks/EasyFeedback.git'
+
+    libraryVersion = '1.0.0'
+
+    developerId = 'webianks'
+    developerName = 'Ramankit Singh'
+    developerEmail = 'webianks@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+android {
+
+    compileSdkVersion 25
+    buildToolsVersion "24.0.1"
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile 'com.android.support:appcompat-v7:25.1.0'
+}
+
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
