@@ -37,9 +37,19 @@ Use this piece of code inside the onClick method of the Activity/Fragment from w
             .build()
             .start();
 ```
+#Method Explanations
 
+**withEmail(String email)**
 
+Takes the string email-id of the developer on which you want to get the feedback/report.
 
+**withSystemInfo()**
+
+Add this method in the builder when you want the System Info & Log reports also.
+
+**Note**
+
+Sceenshot is optional.
 
 #LICENSE
 
