@@ -24,6 +24,23 @@ compile 'com.webianks.library:easy-feedback:1.0.0'
 </dependency>
 ```
 
+
+#Using
+
+Use this piece of code inside the onClick method of the Activity/Fragment from where you want to open the FeedbackActivity.
+
+```java
+
+   new EasyFeedback.Builder(this)
+            .withEmail("webianks@gmail.com")
+            .withSystemInfo()
+            .build()
+            .start();
+```
+
+
+
+
 #LICENSE
 
   Copyright 2017 Ramankit Singh 
