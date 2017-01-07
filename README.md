@@ -1,7 +1,16 @@
 # EasyFeedback
-Easily gather feedback from any android application.
+So you have developed full Application, Now the part comes when you have to create a FeedbackActivity to gather feedback but you feel terrible for creating something boilerplate. Now don't feel just write your email-id and you are done.
 
 <img src="https://github.com/webianks/EasyFeedback/blob/master/screenshots/screen_one.png" height="700" width="400" >
+
+#What you get
+
+<ul>
+<li>Text Feedback</li>
+<li>System Info - Device Name, App Version, Android Version etc.</li>
+<li>Log Report</li>
+<li>Screenshot</li>
+</ul>
 
 #Min SDK
 15
