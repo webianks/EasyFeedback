@@ -1,5 +1,6 @@
 # EasyFeedback
 So you have developed full Application, Now the part comes when you have to create a FeedbackActivity to gather feedback but you feel terrible for creating something boilerplate. Now don't feel just write your email-id and you are done.
+<br><br>
 
 <img src="https://github.com/webianks/EasyFeedback/blob/master/screenshots/screen_one.png" height="700" width="400" >
 
