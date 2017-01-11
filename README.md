@@ -1,4 +1,4 @@
-[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-EasyFeedback-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/5062)
+<a href="https://android-arsenal.com/details/1/5062"><img src="https://img.shields.io/badge/Android%20Arsenal-EasyFeedback-blue.svg?style=flat-square" border="0" alt="Android Arsenal"></a>
 
 # EasyFeedback
 So you have developed full Application, Now the part comes when you have to create a FeedbackActivity to gather feedback but you feel terrible for creating something boilerplate. Now don't feel just write your email-id and you are done.
