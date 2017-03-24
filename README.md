@@ -6,7 +6,7 @@ So you have developed full Application, Now the part comes when you have to crea
 
 <img src="https://github.com/webianks/EasyFeedback/blob/master/screenshots/screen_one.png" height="700" width="400" >
 
-#What you get
+# What you get
 
 <ul>
 <li>Text Feedback</li>
@@ -15,10 +15,10 @@ So you have developed full Application, Now the part comes when you have to crea
 <li>Screenshot</li>
 </ul>
 
-#Min SDK
+# Min SDK
 15
 
-#Download
+# Download
 
 **Gradle**
 
@@ -37,7 +37,7 @@ compile 'com.webianks.library:easy-feedback:1.0.0'
 ```
 
 
-#Using
+# Usage
 
 Use this piece of code inside the onClick method of the Activity/Fragment from where you want to open the FeedbackActivity.
 
@@ -49,7 +49,7 @@ Use this piece of code inside the onClick method of the Activity/Fragment from w
             .build()
             .start();
 ```
-#Method Explanations
+# Method Explanations
 
 **withEmail(String email)**
 
@@ -63,7 +63,7 @@ Add this method in the builder when you want the System Info & Log reports also.
 
 Sceenshot is optional.
 
-#LICENSE
+# LICENSE
 
 ```
  Copyright 2017 Ramankit Singh 
