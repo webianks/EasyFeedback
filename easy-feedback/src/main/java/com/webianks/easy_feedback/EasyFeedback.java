@@ -43,8 +43,6 @@ public class EasyFeedback {
             return this;
         }
 
-
-
         public EasyFeedback build() {
             return new EasyFeedback(this);
         }
