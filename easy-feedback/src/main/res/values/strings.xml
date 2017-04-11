@@ -1,13 +1,27 @@
 <resources>
 
-    <string name="app_name">Easy_Feedback</string>
+    <string name="app_name" translatable="false">Easy_Feedback</string>
+    <string name="file_name_device_info" translatable="false">deviceInf.txt</string>
+    <string name="file_name_device_log" translatable="false">deviceLog.txt</string>
+    <string name="feedback_mail_subject">feedback about %1$s</string>
+    <string name="cancel">Cancel</string>
+    <string name="Ok">OK</string>
     <string name="your_input">Write your feedback</string>
     <string name="send_feedback">Send</string>
-    <string name="from">From:</string>
+    <string name="from" translatable="false">From:</string>
     <string name="please_write">Please write something.</string>
     <string name="send_feedback_two">Send Feedback</string>
     <string name="feedback">Feedback</string>
     <string name="select_image">+ Add Screenshot</string>
     <string name="click_again">Click again to change the image</string>
+    <string name="select_picture_title">Select Picture</string>
+    <string name="ok">OK</string>
+    <string name="system_info">System Info</string>
+    <string name="info_fedback_legal_start">"Your "</string>
+    <string name="info_fedback_legal_system_info">"system info "</string>
+    <string name="info_fedback_legal_and">"and "</string>
+    <string name="info_fedback_legal_log_data">"log data "</string>
+    <string name="info_fedback_legal_will_be_sent">will be sent to %s</string>
+    <string name="space">" "</string>
 
 </resources>
