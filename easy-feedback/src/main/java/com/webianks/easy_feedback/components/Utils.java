@@ -9,6 +9,7 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
+import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,6 +19,8 @@ import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.support.annotation.ColorInt;
+import android.util.TypedValue;
 
 import java.util.List;
 import java.util.Stack;
@@ -202,13 +205,13 @@ public class Utils {
         List<ResolveInfo> activities = context.getPackageManager()
                 .queryIntentActivities(i, 0);
 
-        for(ResolveInfo ri : activities) {
+        for (ResolveInfo ri : activities) {
             Intent target = new Intent(source);
             target.setPackage(ri.activityInfo.packageName);
             intents.add(target);
         }
 
-        if(!intents.isEmpty()) {
+        if (!intents.isEmpty()) {
             Intent chooserIntent = Intent.createChooser(intents.remove(0),
                     chooserTitle);
             chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS,
@@ -221,4 +224,11 @@ public class Utils {
     }
 
 
+    @ColorInt
+    public static int getColorFromAttr(Context context, int attr, @ColorInt int defaultColor) {
+        TypedArray a = context.obtainStyledAttributes(new TypedValue().data, new int[]{attr});
+        int intColor = a.getColor(0, defaultColor);
+        a.recycle();
+        return intColor;
+    }
 }

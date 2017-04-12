@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feedback_mail_subject">تعليق حول %1$s</string>
+    <string name="Ok">موافق</string>
+    <string name="cancel">إلغاء</string>
+    <string name="click_again">اضغط على الصورة مرة أخرى لتغييرها</string>
+    <string name="send_feedback">ارسل</string>
+    <string name="send_feedback_two">أرسل تعليقًا</string>
+    <string name="select_image">+ أضف لقطة شاشة</string>
+    <string name="space">\" \"</string>
+    <string name="your_input">اكتب تعليقك هنا</string>
+    <string name="select_picture_title">اختر صورةً</string>
+    <string name="system_info">معلومات عن الجهاز</string>
+    <string name="feedback">التعليقات</string>
+    <string name="info_fedback_legal_start">"ستُرسَلُ "</string>
+    <string name="info_fedback_legal_system_info">"بيانات جهازك "</string>
+    <string name="info_fedback_legal_and">" و"</string>
+    <string name="info_fedback_legal_will_be_sent">إلى %s</string>
+    <string name="info_fedback_legal_log_data">"بيانات تشغيل البرنامج "</string>
+    <string name="ok">موافق</string>
+    <string name="please_write">رجاءً أترك رسالة</string>
+</resources>
