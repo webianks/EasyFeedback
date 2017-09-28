@@ -1,4 +1,6 @@
 <a href="https://android-arsenal.com/details/1/5062"><img src="https://img.shields.io/badge/Android%20Arsenal-EasyFeedback-blue.svg?style=flat-square" border="0" alt="Android Arsenal"></a>
+[![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=102)](http://www.apache.org/licenses/LICENSE-2.0)
+[![License](https://img.shields.io/badge/License-Apache--2.0-brightgreen.svg)](https://github.com/webianks/EasyFeedback/blob/master/LICENCE)
 
 # EasyFeedback
 So you have developed full Application, Now the part comes when you have to create a FeedbackActivity to gather feedback but you feel terrible for creating something boilerplate. Now don't feel just write your email-id and you are done.
