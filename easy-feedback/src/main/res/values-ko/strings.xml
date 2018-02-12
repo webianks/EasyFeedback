@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name" translatable="false">Easy_Feedback</string>
+    <string name="file_name_device_info" translatable="false">기기정보.txt</string>
+    <string name="file_name_device_log" translatable="false">로그캣.txt</string>
+    <string name="feedback_mail_subject">%1$s 피드백</string>
+    <string name="cancel">취소</string>
+    <string name="Ok">확인</string>
+    <string name="your_input">피드백을 작성해주세요</string>
+    <string name="send_feedback">전송</string>
+    <string name="from" translatable="false">From:</string>
+    <string name="please_write">내용을 작성해주세요</string>
+    <string name="send_feedback_two">피드백 전송</string>
+    <string name="feedback">피드백</string>
+    <string name="select_image">+스크린샷 추가</string>
+    <string name="click_again">한번더 눌러서 사진변경</string>
+    <string name="select_picture_title">Select Picture</string>
+    <string name="ok">확인</string>
+    <string name="system_info">기기정보</string>
+    <string name="info_fedback_legal_start">"당신의"</string>
+    <string name="info_fedback_legal_system_info">"기기정보"</string>
+    <string name="info_fedback_legal_and">"및"</string>
+    <string name="info_fedback_legal_log_data">"로그캣"</string>
+    <string name="info_fedback_legal_will_be_sent">이 전송됩니다 %s</string>
+    <string name="space">" "</string>
+</resources>
