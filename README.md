@@ -25,7 +25,7 @@ So you have developed full Application, Now the part comes when you have to crea
 **Gradle**
 
 ```groovy
-compile 'com.webianks.library:easy-feedback:1.0.5'
+implementation 'com.webianks.library:easy-feedback:1.0.5'
 ```
 **Maven**
 
