@@ -57,7 +57,6 @@ public class EasyFeedback {
         intent.putExtra("with_info", withSystemInfo);
         context.startActivity(intent);
 
-
     }
 
 }
