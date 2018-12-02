@@ -1,0 +1,23 @@
+<resources>
+
+    <string name="feedback_mail_subject">%1$s Hakkında Geri Bildirim</string>
+    <string name="cancel">İptal</string>
+    <string name="Ok">Tamam</string>
+    <string name="your_input">Lütfen geri bildiriminizi yazın</string>
+    <string name="send_feedback">Gönder</string>
+    <string name="from" translatable="false">Kimden:</string>
+    <string name="please_write">Lütfen geri bildiriminizi yazın.</string>
+    <string name="send_feedback_two">Geri Bildirim Gönder</string>
+    <string name="feedback">Geri Bildirim</string>
+    <string name="select_image">+ Ekran Görüntüsü Ekle</string>
+    <string name="click_again">Resmi değiştirmek için tekrar dokunun</string>
+    <string name="select_picture_title">Resim Seçin</string>
+    <string name="ok">Tamam</string>
+    <string name="system_info">Sistem Bilgisi</string>
+    <string name="info_fedback_legal_start">"Sizin "</string>
+    <string name="info_fedback_legal_system_info">"sistem bilginiz "</string>
+    <string name="info_fedback_legal_and">"ve "</string>
+    <string name="info_fedback_legal_log_data">"log verileriniz "</string>
+    <string name="info_fedback_legal_will_be_sent">%s geliştiricilerine gönderilecektir</string>
+    
+</resources>
