@@ -3,7 +3,7 @@
     <string name="app_name" translatable="false">Easy_Feedback</string>
     <string name="file_name_device_info" translatable="false">deviceInf.txt</string>
     <string name="file_name_device_log" translatable="false">deviceLog.txt</string>
-    <string name="feedback_mail_subject">feedback about %1$s</string>
+    <string name="feedback_mail_subject">Feedback of %1$s</string>
     <string name="cancel">Cancel</string>
     <string name="Ok">OK</string>
     <string name="your_input">Write your feedback</string>
