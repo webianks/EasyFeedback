@@ -26,15 +26,15 @@
 
     <string name="feedback">피드백</string>
 
-    <string name="select_image">+사진 추가</string>
+    <string name="select_image">+스크린샷 추가</string>
 
-    <string name="click_again">사진을 눌러서 사진변경</string>
+    <string name="click_again">스크린샷 변경</string>
 
-    <string name="select_picture_title">Select Picture</string>
+    <string name="select_picture_title">스크린샷 선택</string>
 
     <string name="ok">확인</string>
 
-    <string name="system_info">System Info</string>
+    <string name="system_info"기기정보</string>
 
     <string name="info_fedback_legal_start">"사용자의 "</string>
 
@@ -44,7 +44,7 @@
 
     <string name="info_fedback_legal_log_data">"로그캣이"</string>
 
-    <string name="info_fedback_legal_will_be_sent">Appic으로 전송됩니다</string>
+    <string name="info_fedback_legal_will_be_sent">%s으로 전송됩니다</string>
 
     <string name="space">" "</string>
 </resources>
