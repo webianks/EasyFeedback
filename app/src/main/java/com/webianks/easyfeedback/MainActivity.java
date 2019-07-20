@@ -1,8 +1,9 @@
 package com.webianks.easyfeedback;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.webianks.easy_feedback.EasyFeedback;
 
@@ -18,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     public void onClickFeedback(View view) {
 
         new EasyFeedback.Builder(this)
-                .withEmail("webianks@gmail.com")
+                .withEmail("username@gmail.com")
                 .withSystemInfo()
                 .build()
                 .start();
